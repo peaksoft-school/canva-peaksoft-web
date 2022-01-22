@@ -1,13 +1,8 @@
-import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import LoginPage from './routes/LoginPage'
+import MainRouter from './routes/MainRouter'
 
 function App() {
-   return (
-      <Routes>
-         <Route path="/login" element={<LoginPage />} />
-      </Routes>
-   )
+   return <MainRouter />
 }
 
 export default App

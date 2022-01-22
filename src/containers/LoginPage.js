@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, TextField } from '@mui/material'
+import { Button } from '@mui/material'
 import loginImg from '../assets/images/loginImage.png'
 import classes from '../assets/styles/LoginPage.module.css'
+import Input from '../components/UI/Input'
 
 export default function LoginPage() {
    return (
@@ -17,17 +18,9 @@ export default function LoginPage() {
 
             <div className={classes.loginForm}>
                <label htmlFor="login">Логин:</label>
-               <TextField
-                  sx={{ width: 1 }}
-                  placeholder="Введите логин"
-                  id="login"
-               />
+               <Input placeholder="Введите логин" id="login" />
                <label htmlFor="password">Пароль:</label>
-               <TextField
-                  sx={{ width: 1 }}
-                  placeholder="Введите пароль"
-                  id="password"
-               />
+               <Input placeholder="Введите пароль" id="password" />
                <Button sx={{ fontSize: 18 }} variant="contained">
                   Войти
                </Button>
