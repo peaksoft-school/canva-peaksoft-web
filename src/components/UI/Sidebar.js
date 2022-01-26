@@ -19,7 +19,7 @@ export default function Sidebar() {
                <img className={classes.logo} src={Logo} alt="peaksoft" />
                {['Группы', 'Курсы', 'Учителя', 'Студенты'].map(
                   (text, index) => (
-                     <NavLink to={translate[index]}>
+                     <NavLink to={translate[index]} key={text}>
                         <ListItem button key={text} sx={{ p: 1.5 }}>
                            <ListItemIcon>
                               <img src={sidebarIcons[index]} alt="hello" />
