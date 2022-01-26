@@ -1,14 +1,15 @@
 import React from 'react'
-import { Card, CardMedia, Typography, Button } from '@mui/material'
-import styled from 'styled-components'
-import classes from './Cards.module.css'
+import { Card, CardMedia, Typography } from '@mui/material'
+// import styled from 'styled-components'
+import classes from '../../../assets/styles/Cards.module.css'
 import group from '../../../assets/images/group.png'
+import Meatballs from './Meatballs'
 
-const StyledButton = styled(Button)`
-   font-size: 20px;
-   font-weight: bold;
-`
-const Cards = ({ title, onClick, date, description }) => {
+// const StyledButton = styled(Button)`
+//    font-size: 20px;
+//    font-weight: bold;
+// `
+const Cards = ({ title, date, description }) => {
    return (
       <div className={classes.container}>
          <Card sx={{ maxWidth: 270, maxHeight: 311 }}>
@@ -42,9 +43,7 @@ const Cards = ({ title, onClick, date, description }) => {
             >
                {description}
             </Typography>
-            <div className={classes.next}>
-               <StyledButton onClick={onClick}>...</StyledButton>
-            </div>
+            <Meatballs />
          </Card>
       </div>
    )
