@@ -19,14 +19,14 @@ const StyledButton = styled(Button)`
    }
 `
 
-const CardSettings = ({ onClick }) => {
+const CardSettings = ({ onDeleteHandler, onEditHandler }) => {
    return (
       <StyledDiv>
-         <StyledButton variant="text" onClick={onClick}>
+         <StyledButton variant="text" onClick={onEditHandler}>
             <GreenEdit style={{ margin: 5 }} />
             Редактировать
          </StyledButton>
-         <StyledButton variant="text" onClick={onClick}>
+         <StyledButton variant="text" onClick={onDeleteHandler}>
             <Deletesvg style={{ margin: 5 }} />
             Удалить
          </StyledButton>
