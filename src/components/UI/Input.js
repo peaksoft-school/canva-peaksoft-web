@@ -13,6 +13,7 @@ export default function Input({
    htmlFor,
    className,
    onChange,
+   ...otherProps
 }) {
    return (
       <StyledTextField
@@ -22,6 +23,7 @@ export default function Input({
          placeholder={placeholder}
          htmlFor={htmlFor}
          size="small"
+         {...otherProps}
       >
          {children}
       </StyledTextField>
