@@ -1,13 +1,14 @@
 import { Box, Paper } from '@mui/material'
 import React from 'react'
 import 'react-quill/dist/quill.snow.css'
-import { Editor } from '../components/textEditor/Editor'
+import { Editor } from '../components/TextEditor/Editor'
 import Button from '../components/UI/Button'
 import Input from '../components/UI/Input'
 
 export default function LessonForm() {
    return (
       <Box
+         component="form"
          sx={{
             width: '95%',
             height: 'auto',
@@ -27,7 +28,9 @@ export default function LessonForm() {
             justifyContent="space-between"
          >
             <Button variant="outlined">Отмена</Button>
-            <Button variant="contained">Сохранить</Button>
+            <Button variant="contained" type="submit">
+               Сохранить
+            </Button>
          </Box>
       </Box>
    )

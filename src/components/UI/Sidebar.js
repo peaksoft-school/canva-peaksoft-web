@@ -8,6 +8,7 @@ import Logo from '../../assets/images/PeaksoftLogo.png'
 export default function Sidebar() {
    const translate = ['groups', 'courses', 'teachers', 'students']
 
+   const listItems = ['Группы', 'Курсы', 'Учителя', 'Студенты']
    return (
       <Box display="flex">
          <Box
@@ -17,18 +18,16 @@ export default function Sidebar() {
          >
             <List>
                <img className={classes.logo} src={Logo} alt="peaksoft" />
-               {['Группы', 'Курсы', 'Учителя', 'Студенты'].map(
-                  (text, index) => (
-                     <NavLink to={translate[index]} key={text}>
-                        <ListItem button key={text} sx={{ p: 1.5 }}>
-                           <ListItemIcon>
-                              <img src={sidebarIcons[index]} alt="hello" />
-                           </ListItemIcon>
-                           <ListItemText primary={text} />
-                        </ListItem>
-                     </NavLink>
-                  )
-               )}
+               {listItems.map((text, index) => (
+                  <NavLink to={translate[index]} key={text}>
+                     <ListItem button key={text} sx={{ p: 1.5 }}>
+                        <ListItemIcon>
+                           <img src={sidebarIcons[index]} alt="hello" />
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                     </ListItem>
+                  </NavLink>
+               ))}
             </List>
          </Box>
       </Box>
