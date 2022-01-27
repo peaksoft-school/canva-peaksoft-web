@@ -11,6 +11,7 @@ export default function Input({
    children,
    placeholder,
    className,
+   onChange,
    ...otherProps
 }) {
    return (
