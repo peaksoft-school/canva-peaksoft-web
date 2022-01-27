@@ -7,14 +7,14 @@ import { ListItem, ListItemText, Button } from '@mui/material'
 import Divider from '@mui/material/Divider'
 import styled from 'styled-components'
 import CardSettings from './CardSettings'
-import InputSelect from './InputSelect'
-import { ReactComponent as Videosvg } from '../../../assets/icons/LessonCardsSvg/videosvg.svg'
-import { ReactComponent as Presentationsvg } from '../../../assets/icons/LessonCardsSvg/presentationsvg.svg'
-import { ReactComponent as Tasksvg } from '../../../assets/icons/LessonCardsSvg/tasksvg.svg'
-import { ReactComponent as Linksvg } from '../../../assets/icons/LessonCardsSvg/linksvg.svg'
-import { ReactComponent as Testsvg } from '../../../assets/icons/LessonCardsSvg/testsvg.svg'
-import { ReactComponent as Reeditsvg } from '../../../assets/icons/LessonCardsSvg/reedit.svg'
-import { ReactComponent as Deletesvg } from '../../../assets/icons/LessonCardsSvg/deleteBasket.svg'
+import InputSelect from './LessonTypeForm'
+import { ReactComponent as Videosvg } from '../../assets/icons/LessonCardsSvg/videosvg.svg'
+import { ReactComponent as Presentationsvg } from '../../assets/icons/LessonCardsSvg/presentationsvg.svg'
+import { ReactComponent as Tasksvg } from '../../assets/icons/LessonCardsSvg/tasksvg.svg'
+import { ReactComponent as Linksvg } from '../../assets/icons/LessonCardsSvg/linksvg.svg'
+import { ReactComponent as Testsvg } from '../../assets/icons/LessonCardsSvg/testsvg.svg'
+import { ReactComponent as Reeditsvg } from '../../assets/icons/LessonCardsSvg/reedit.svg'
+import { ReactComponent as Deletesvg } from '../../assets/icons/LessonCardsSvg/deleteBasket.svg'
 
 const StyledText = styled(ListItemText)`
    span {
@@ -46,10 +46,10 @@ const style = {
    borderRadius: '10px',
 }
 
-export default function LessonCards({ onClick }) {
+export default function LessonCard({ onClick, ...otherProps }) {
    return (
       <Box sx={style}>
-         <List>
+         <List {...otherProps}>
             <ListItem onClick={onClick}>
                <Button>
                   <Reeditsvg onClick={onClick} />

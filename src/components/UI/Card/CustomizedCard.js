@@ -1,25 +1,18 @@
 import React from 'react'
 import { Card, CardMedia, Typography } from '@mui/material'
-// import styled from 'styled-components'
 import classes from '../../../assets/styles/Cards.module.css'
-import group from '../../../assets/images/group.png'
-import Meatballs from './Meatballs'
+import Meatballs from '../Meatballs/Meatballs'
 
-// const StyledButton = styled(Button)`
-//    font-size: 20px;
-//    font-weight: bold;
-// `
-const Cards = ({ title, date, description }) => {
+const style = {
+   maxWidth: 270,
+   maxHeight: 311,
+}
+
+const CustomizedCard = ({ title, date, description, image }) => {
    return (
       <div className={classes.container}>
-         <Card sx={{ maxWidth: 270, maxHeight: 311 }}>
-            <CardMedia
-               src={group}
-               // src={props.image}
-               component="img"
-               height="140"
-               alt="img"
-            />
+         <Card sx={style}>
+            <CardMedia src={image} component="img" height="140" alt="img" />
             <div className={classes.content}>
                <Typography
                   fontSize={20}
@@ -49,4 +42,4 @@ const Cards = ({ title, date, description }) => {
    )
 }
 
-export default Cards
+export default CustomizedCard

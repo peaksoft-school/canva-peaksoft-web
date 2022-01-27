@@ -3,39 +3,36 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
+import styled from 'styled-components'
 
-const style = {
-   m: 1,
-   minWidth: 141,
-   marginRight: 4,
-}
-
-export default function InputSelect() {
-   const [value, setValue] = React.useState('')
-   const [open, setOpen] = React.useState(false)
-
-   const handleChange = (event) => {
-      setValue(event.target.value)
+const StyledFormControl = styled(FormControl)`
+   &.css-1nrlq1o-MuiFormControl-root {
+      margin: 1rem;
+      min-width: 141px;
+      margin-right: 4px;
    }
+`
 
-   const handleClose = () => {
-      setOpen(false)
+const StyledInputLabel = styled(InputLabel)`
+   &.MuiInputLabel-root {
+      font-size: 12;
+      margin-top: 0.5px;
    }
+`
 
-   const handleOpen = () => {
-      setOpen(true)
-   }
-
+export default function LessonTypeForm({
+   open,
+   value,
+   handleChange,
+   handleClose,
+   handleOpen,
+}) {
    return (
       <div>
-         <FormControl sx={style}>
-            <InputLabel
-               style={{ fontSize: '12px', marginTop: '5px' }}
-               id="open-select-label"
-               variant="outlined"
-            >
+         <StyledFormControl>
+            <StyledInputLabel id="open-select-label" variant="outlined">
                Добавить
-            </InputLabel>
+            </StyledInputLabel>
             <Select
                labelId="dopen-select-label"
                id="open-select"
@@ -53,7 +50,7 @@ export default function InputSelect() {
                <MenuItem value={50}>Ссылка</MenuItem>
                <MenuItem value={60}>Тест</MenuItem>
             </Select>
-         </FormControl>
+         </StyledFormControl>
       </div>
    )
 }

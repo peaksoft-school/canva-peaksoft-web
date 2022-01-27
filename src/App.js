@@ -1,14 +1,8 @@
 import './App.css'
-import LessonCards from './components/UI/LessonCards/LessonCards'
 import MainRouter from './routes/MainRouter'
 
 function App() {
-   return (
-      <>
-         <MainRouter />
-         <LessonCards />
-      </>
-   )
+   return <MainRouter />
 }
 
 export default App
