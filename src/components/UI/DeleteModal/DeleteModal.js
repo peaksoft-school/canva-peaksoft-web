@@ -47,11 +47,12 @@ const DeleteButton = styled(Button)`
    text-transform: none;
 `
 
-export default function DeleteModal({ isOpen, handleClose }) {
+export default function DeleteModal({ isOpen, handleClose, ...otherProps }) {
    return (
       <Modal
          open={isOpen}
          onClose={handleClose}
+         {...otherProps}
          aria-labelledby="modal-modal-title"
          aria-describedby="modal-modal-description"
       >
