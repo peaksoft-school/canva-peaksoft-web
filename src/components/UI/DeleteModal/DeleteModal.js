@@ -27,58 +27,47 @@ const StyledText = styled(Typography)`
    margin: 0 62px 24px 62px;
 `
 
-export default function DeleteModal() {
-   const [open, setOpen] = React.useState(false)
-   const handleOpen = () => setOpen(true)
-   const handleClose = () => setOpen(false)
+const StyledDiv = styled('div')`
+   width: 221;
+   margin-left: 48;
+   display: flex;
+   justify-content: space-evenly;
+`
 
+const CancelButton = styled(Button)`
+   font-weight: 400;
+   font-size: 14;
+   text-transform: none;
+`
+
+const DeleteButton = styled(Button)`
+   background-color: rgba(201, 30, 30, 1);
+   font-weight: 600;
+   font-size: 14;
+   text-transform: none;
+`
+
+export default function DeleteModal({ isOpen, handleClose }) {
    return (
-      <div>
-         <Button onClick={handleOpen}>Delete</Button>
-         <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-         >
-            <Box sx={style}>
-               <StyledText variant="h6" component="h2">
-                  Вы уверены, что хотите удалить группу ... ?
-               </StyledText>
-               <div
-                  style={{
-                     width: 221,
-                     marginLeft: 48,
-                     display: 'flex',
-                     justifyContent: 'space-evenly',
-                  }}
-               >
-                  <Button
-                     style={{
-                        fontWeight: 400,
-                        fontSize: 14,
-                        textTransform: 'none',
-                     }}
-                     variant="outlined"
-                     onClick={handleClose}
-                  >
-                     Отмена
-                  </Button>
-                  <Button
-                     style={{
-                        backgroundColor: 'rgba(201, 30, 30, 1)',
-                        fontWeight: 600,
-                        fontSize: 14,
-                        textTransform: 'none',
-                     }}
-                     variant="contained"
-                     onClick={handleClose}
-                  >
-                     Удалить
-                  </Button>
-               </div>
-            </Box>
-         </Modal>
-      </div>
+      <Modal
+         open={isOpen}
+         onClose={handleClose}
+         aria-labelledby="modal-modal-title"
+         aria-describedby="modal-modal-description"
+      >
+         <Box sx={style}>
+            <StyledText variant="h6" component="h2">
+               Вы уверены, что хотите удалить группу ... ?
+            </StyledText>
+            <StyledDiv>
+               <CancelButton variant="outlined" onClick={handleClose}>
+                  Отмена
+               </CancelButton>
+               <DeleteButton variant="contained" onClick={handleClose}>
+                  Удалить
+               </DeleteButton>
+            </StyledDiv>
+         </Box>
+      </Modal>
    )
 }

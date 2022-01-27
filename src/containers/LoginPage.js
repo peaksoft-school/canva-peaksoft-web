@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@mui/material'
+import Button from '../components/UI/Button'
 import loginImg from '../assets/images/loginImage.png'
 import classes from '../assets/styles/LoginPage.module.css'
 import Input from '../components/UI/Input'
