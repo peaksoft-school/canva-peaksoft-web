@@ -19,6 +19,7 @@ export default function Input({
          className={className}
          sx={{ width: 1 }}
          placeholder={placeholder}
+         onChange={onChange}
          size="small"
          {...otherProps}
       />
