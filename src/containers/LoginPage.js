@@ -1,12 +1,12 @@
 import React from 'react'
-import Button from '../components/UI/Button'
+import { Box, Button } from '@mui/material'
 import loginImg from '../assets/images/loginImage.png'
 import classes from '../assets/styles/LoginPage.module.css'
 import Input from '../components/UI/Input'
 
 export default function LoginPage() {
    return (
-      <div className={classes.container}>
+      <Box className={classes.container}>
          <div className={classes.leftSide}>
             <img className={classes.loginImg} src={loginImg} alt="loginImage" />
          </div>
@@ -15,17 +15,20 @@ export default function LoginPage() {
             <h1 className={classes.loginTitle}>
                Добро пожаловать <br /> в <span>Peaksoft LMS !</span>
             </h1>
-
-            <div className={classes.loginForm}>
-               <label htmlFor="login">Логин:</label>
-               <Input placeholder="Введите логин" id="login" />
+            <form className={classes.loginForm}>
+               <label htmlFor="email">Логин:</label>
+               <Input id="email" name="email" placeholder="Введите email" />
                <label htmlFor="password">Пароль:</label>
-               <Input placeholder="Введите пароль" id="password" />
-               <Button sx={{ fontSize: 18 }} variant="contained">
+               <Input
+                  placeholder="Введите пароль"
+                  name="password"
+                  id="password"
+               />
+               <Button sx={{ fontSize: 18 }} variant="contained" type="submit">
                   Войти
                </Button>
-            </div>
+            </form>
          </div>
-      </div>
+      </Box>
    )
 }

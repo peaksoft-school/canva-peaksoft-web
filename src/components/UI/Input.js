@@ -10,7 +10,6 @@ const StyledTextField = styled(TextField)`
 export default function Input({
    children,
    placeholder,
-   htmlFor,
    className,
    onChange,
    ...otherProps
@@ -18,14 +17,10 @@ export default function Input({
    return (
       <StyledTextField
          className={className}
-         onChange={onChange}
          sx={{ width: 1 }}
          placeholder={placeholder}
-         htmlFor={htmlFor}
          size="small"
          {...otherProps}
-      >
-         {children}
-      </StyledTextField>
+      />
    )
 }
