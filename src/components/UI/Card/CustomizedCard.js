@@ -1,24 +1,18 @@
 import React from 'react'
-import { Card, CardMedia, Typography, Button } from '@mui/material'
-import styled from 'styled-components'
-import classes from './Cards.module.css'
-import group from '../../../assets/images/group.png'
+import { Card, CardMedia, Typography } from '@mui/material'
+import classes from '../../../assets/styles/Cards.module.css'
+import Meatballs from '../Meatballs/Meatballs'
 
-const StyledButton = styled(Button)`
-   font-size: 20px;
-   font-weight: bold;
-`
-const Cards = ({ title, onClick, date, description }) => {
+const style = {
+   maxWidth: 270,
+   maxHeight: 311,
+}
+
+const CustomizedCard = ({ title, date, description, image }) => {
    return (
       <div className={classes.container}>
-         <Card sx={{ maxWidth: 270, maxHeight: 311 }}>
-            <CardMedia
-               src={group}
-               // src={props.image}
-               component="img"
-               height="140"
-               alt="img"
-            />
+         <Card sx={style}>
+            <CardMedia src={image} component="img" height="140" alt="img" />
             <div className={classes.content}>
                <Typography
                   fontSize={20}
@@ -42,12 +36,10 @@ const Cards = ({ title, onClick, date, description }) => {
             >
                {description}
             </Typography>
-            <div className={classes.next}>
-               <StyledButton onClick={onClick}>...</StyledButton>
-            </div>
+            <Meatballs />
          </Card>
       </div>
    )
 }
 
-export default Cards
+export default CustomizedCard
