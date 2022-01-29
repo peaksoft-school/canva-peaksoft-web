@@ -46,18 +46,27 @@ const style = {
    borderRadius: '10px',
 }
 
-export default function LessonCard({ onClick, ...otherProps }) {
+export default function LessonCard({
+   onEditHandler,
+   onDeleteHandler,
+   openVideoHandler,
+   openPresentationHandler,
+   openTaskHandler,
+   openLinkHandler,
+   openTestHandler,
+   ...otherProps
+}) {
    return (
       <Box sx={style}>
          <List {...otherProps}>
-            <ListItem onClick={onClick}>
+            <ListItem>
                <Button>
-                  <Reeditsvg onClick={onClick} />
+                  <Reeditsvg onClick={onEditHandler} />
                </Button>
                <StyledTitle primary="LESSON_1" />
                <InputSelect />
                <Button>
-                  <Deletesvg onClick={onClick} />
+                  <Deletesvg onClick={onDeleteHandler} />
                </Button>
             </ListItem>
          </List>
@@ -65,31 +74,31 @@ export default function LessonCard({ onClick, ...otherProps }) {
          <Divider />
 
          <List>
-            <ListItemButton onClick={onClick} disableRipple>
+            <ListItemButton onClick={openVideoHandler} disableRipple>
                <Videosvg />
                <StyledText primary="Видеоурок" />
                <CardSettings />
             </ListItemButton>
 
-            <ListItemButton onClick={onClick} disableRipple>
+            <ListItemButton onClick={openPresentationHandler} disableRipple>
                <Presentationsvg />
                <StyledText primary="Презентация" />
                <CardSettings />
             </ListItemButton>
 
-            <ListItemButton onClick={onClick} disableRipple>
+            <ListItemButton onClick={openTaskHandler} disableRipple>
                <Tasksvg />
                <StyledText primary="Задание" />
                <CardSettings />
             </ListItemButton>
 
-            <ListItemButton onClick={onClick} disableRipple>
+            <ListItemButton onClick={openLinkHandler} disableRipple>
                <Linksvg />
                <StyledText primary="Ссылка" />
                <CardSettings />
             </ListItemButton>
 
-            <ListItemButton onClick={onClick} disableRipple>
+            <ListItemButton onClick={openTestHandler} disableRipple>
                <Testsvg />
                <StyledText primary="Тест" />
                <CardSettings />
