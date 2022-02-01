@@ -6,6 +6,8 @@ import { Logout } from '@mui/icons-material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import styled from 'styled-components'
 import { ReactComponent as UserLogo } from '../../assets/icons/userLogo.svg'
+import HeaderTabs from './HeaderTabs'
+
 
 const StyledPaper = styled(Paper)`
    &.MuiPaper-root {
@@ -44,15 +46,26 @@ const StyledDivWrapper = styled('div')`
    align-items: center;
 `
 
-export default function Header({
-   user = 'admin',
-   open,
-   anchorEl,
-   handleClick,
-   handleClose,
-}) {
+export default function Header({ role, withTabs = false, tabs = [] }) {
+   const anchorEl = null //я не знаю что тут должно быть сами сделаете правильно
+   const open = true
+
+
+   const handleClick = () => {
+      // do something
+   }
+
+   const handleClose = () => {
+      // do some thing
+   }
+
+
+
+
    return (
       <StyledPaper>
+         {withTabs && <HeaderTabs role={role} tabs={tabs}/>}
+
          <StyledDiv
             id="basic-button"
             aria-controls={open ? 'basic-menu' : undefined}
@@ -76,7 +89,7 @@ export default function Header({
             </Menu>
             <StyledDivWrapper>
                <UserLogo />
-               <StyledText>{user}</StyledText>
+               <StyledText>{role}</StyledText>
                <KeyboardArrowDownIcon />
             </StyledDivWrapper>
          </StyledDiv>

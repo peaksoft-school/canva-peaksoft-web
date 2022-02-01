@@ -1,7 +1,7 @@
 import { Box, Paper } from '@mui/material'
 import React from 'react'
 import 'react-quill/dist/quill.snow.css'
-import { Editor } from '../components/TextEditor/Editor'
+import { Editor } from '../components/textEditor/Editor'
 import Button from '../components/UI/Button'
 import Input from '../components/UI/Input'
 

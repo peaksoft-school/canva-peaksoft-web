@@ -20,31 +20,13 @@ const StyledBox = styled(Box)`
    margin-left: 580px;
 `
 
-export default function BasicTabs({ user }) {
+export default function HeaderTabs({ tabs = [] }) {
    const [value, setValue] = React.useState(0)
 
    const handleChange = (event, newValue) => {
       setValue(newValue)
    }
 
-   const tabs = [
-      <Tab sx={style} label="Студенты">
-         <NavLink to="/students">Students</NavLink>
-      </Tab>,
-   ]
-   if (user === 'admin') {
-      tabs.unshift(
-         <Tab sx={style} label="Учителя">
-            <NavLink to="/teachers">Учителя</NavLink>
-         </Tab>
-      )
-   } else {
-      tabs.unshift(
-         <Tab sx={style} label="Материалы">
-            <NavLink to="/materials">Материалы</NavLink>
-         </Tab>
-      )
-   }
    return (
       <StyledBox>
          <Tabs
@@ -52,7 +34,13 @@ export default function BasicTabs({ user }) {
             onChange={handleChange}
             aria-label="basic tabs example"
          >
-            {tabs}
+            {tabs.map(tabItem => {
+               return (
+                  <Tab sx={style} label={tabItem.title} key={tabItem.title}>
+                     <NavLink to={tabItem.link}>{tabItem.title}</NavLink>
+                  </Tab>
+               )
+            })}
          </Tabs>
       </StyledBox>
    )
