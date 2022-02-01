@@ -28,8 +28,8 @@ const StyledText = styled(Typography)`
 `
 
 const StyledDiv = styled('div')`
-   width: 221;
-   margin-left: 48;
+   width: 100%;
+   margin: 0 auto;
    display: flex;
    justify-content: space-evenly;
 `
@@ -47,24 +47,24 @@ const DeleteButton = styled(Button)`
    text-transform: none;
 `
 
-export default function DeleteModal({ isOpen, handleClose, ...otherProps }) {
+export default function DeleteModal({
+   isOpen,
+   onClose,
+   onConfirm,
+   children,
+   ...otherProps
+}) {
    return (
-      <Modal
-         open={isOpen}
-         onClose={handleClose}
-         {...otherProps}
-         aria-labelledby="modal-modal-title"
-         aria-describedby="modal-modal-description"
-      >
+      <Modal open={isOpen} onClose={onClose} {...otherProps}>
          <Box sx={style}>
             <StyledText variant="h6" component="h2">
                Вы уверены, что хотите удалить группу ... ?
             </StyledText>
             <StyledDiv>
-               <CancelButton variant="outlined" onClick={handleClose}>
+               <CancelButton variant="outlined" onClick={onClose}>
                   Отмена
                </CancelButton>
-               <DeleteButton variant="contained" onClick={handleClose}>
+               <DeleteButton variant="contained" onClick={onConfirm}>
                   Удалить
                </DeleteButton>
             </StyledDiv>

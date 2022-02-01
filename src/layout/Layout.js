@@ -16,7 +16,8 @@ export default function Layout() {
             sx={{
                backgroundColor: 'rgb(239,240,244)',
                width: '100%',
-               height: '100vh',
+               minHeight: '100vh',
+               height: '100%',
             }}
          >
             <PanelRoute />

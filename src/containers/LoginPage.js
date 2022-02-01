@@ -2,6 +2,7 @@ import React from 'react'
 import * as Yup from 'yup'
 import { Box, Button } from '@mui/material'
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
 import loginImg from '../assets/images/loginImage.png'
 import classes from '../assets/styles/LoginPage.module.css'
 import Input from '../components/UI/Input'
@@ -9,6 +10,7 @@ import Loading from '../components/UI/Loading'
 
 export default function LoginPage() {
    // const isLoggedIn = false
+   const navigate = useNavigate()
    const [isLoading, setIsloading] = React.useState(false)
 
    const handleLogin = (formValue) => {
@@ -16,6 +18,7 @@ export default function LoginPage() {
       // const { email, password } = formValue
       // dispatch(login({ email, password }))
       setIsloading(true)
+      return navigate('/admin')
    }
 
    //* validation
