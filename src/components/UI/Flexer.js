@@ -5,10 +5,10 @@ export default function Flexer({ sx, justify, children, mt }) {
    return (
       <Box
          sx={{
-            width: '100%',
+            mx: 'auto',
             display: 'flex',
             flexWrap: 'wrap',
-            justifyContent: justify || 'center',
+            justifyContent: justify,
             alignItems: 'center',
             mt,
             ...sx,

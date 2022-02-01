@@ -124,6 +124,7 @@ const StyledCard = styled(MUICard)(() => ({
       maxWidth: 250,
       maxHeight: 311,
       margin: '10px',
+      textAlign: 'left',
       '*': {
          fontFamily: 'Open Sans',
       },

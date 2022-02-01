@@ -6,9 +6,7 @@ const styles = {
    fontSize: '20px',
    fontWeight: 'bold',
    color: 'black',
-   textAlign: 'right',
-   width: 1,
-   justifyContent: 'flex-end',
+   float: 'right',
 }
 
 const Meatballs = ({ onClick, align, sx, ...otherProps }) => {
