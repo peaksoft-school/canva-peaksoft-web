@@ -1,85 +1,62 @@
 import * as React from 'react'
 import Dialog from '@mui/material/Dialog'
-import ListItem from '@mui/material/ListItem'
 import List from '@mui/material/List'
-import Divider from '@mui/material/Divider'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import styled from 'styled-components'
-import { Box } from '@mui/material'
-import Input from './Input'
-import Button from './Button'
+import { Box, styled } from '@mui/material'
 
-const StyledDialog = styled(Dialog)`
-   .css-tlc64q-MuiPaper-root-MuiDialog-paper {
-      border-radius: 10px;
-   }
-`
+const Title = ({ children }) => (
+   <AppBar sx={{ position: 'relative' }}>
+      <Toolbar>
+         <Typography
+            sx={{ flex: 1 }}
+            variant="h6"
+            component="div"
+            align="center"
+         >
+            {children}
+         </Typography>
+      </Toolbar>
+   </AppBar>
+)
 
-export default function FullScreenDialog() {
-   const [open, setOpen] = React.useState(false)
+const Body = ({ children }) => <List>{children}</List>
 
-   const handleClickOpen = () => {
-      setOpen(true)
-   }
+const Footer = ({ children }) => (
+   <Box
+      display="flex"
+      width="38%"
+      p="20px"
+      ml="auto"
+      justifyContent="space-between"
+   >
+      {children}
+   </Box>
+)
 
-   const handleClose = () => {
-      setOpen(false)
-   }
+Modal.Title = Title
+Modal.Body = Body
+Modal.Footer = Footer
 
+export default function Modal({ open, onClose, children }) {
    return (
       <div>
-         <Button variant="contained" onClick={handleClickOpen}>
-            Добавить студента
-         </Button>
          <StyledDialog
             fullWidth
             maxWidth="sm"
             open={open}
             borderradius="10"
-            onClose={handleClose}
+            onClose={onClose}
          >
-            <AppBar sx={{ position: 'relative' }}>
-               <Toolbar>
-                  <Typography
-                     sx={{ flex: 1 }}
-                     variant="h6"
-                     component="div"
-                     align="center"
-                  >
-                     Добавить студента
-                  </Typography>
-               </Toolbar>
-            </AppBar>
-            <List>
-               <ListItem>
-                  <Input placeholder="Имя" />
-               </ListItem>
-               <ListItem>
-                  <Input placeholder="Фамилия" />
-               </ListItem>
-               <ListItem>
-                  <Input placeholder="+996 ___ __ __ __" />
-               </ListItem>
-               <ListItem>
-                  <Input placeholder="Email" />
-               </ListItem>
-               <Divider />
-            </List>
-            <Box
-               display="flex"
-               width="38%"
-               p="20px"
-               ml="auto"
-               justifyContent="space-between"
-            >
-               <Button variant="outlined" onClick={handleClose}>
-                  Отмена
-               </Button>
-               <Button variant="contained">Добавить</Button>
-            </Box>
+            {children}
          </StyledDialog>
       </div>
    )
 }
+
+const StyledDialog = styled(Dialog)(() => ({
+   '& .css-tlc64q-MuiPaper-root-MuiDialog-paper': {
+      borderRadius: '10px',
+   },
+}))
