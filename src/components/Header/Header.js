@@ -8,7 +8,6 @@ import styled from 'styled-components'
 import { ReactComponent as UserLogo } from '../../assets/icons/userLogo.svg'
 import HeaderTabs from './HeaderTabs'
 
-
 const StyledPaper = styled(Paper)`
    &.MuiPaper-root {
       display: flex;
@@ -46,53 +45,48 @@ const StyledDivWrapper = styled('div')`
    align-items: center;
 `
 
-export default function Header({ role, withTabs = false, tabs = [] }) {
-   const anchorEl = null //я не знаю что тут должно быть сами сделаете правильно
-   const open = true
-
-
-   const handleClick = () => {
-      // do something
+export default function Header({ userRole, withTabs = false, tabs = [] }) {
+   const [anchorEl, setAnchorEl] = React.useState(null)
+   const open = Boolean(anchorEl)
+   const handleClick = (event) => {
+      setAnchorEl(event.currentTarget)
    }
-
    const handleClose = () => {
-      // do some thing
+      setAnchorEl(null)
    }
-
-
-
 
    return (
-      <StyledPaper>
-         {withTabs && <HeaderTabs role={role} tabs={tabs}/>}
-
-         <StyledDiv
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
+      <>
+         <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+               'aria-labelledby': 'basic-button',
+            }}
          >
-            <Menu
-               id="basic-menu"
-               anchorEl={anchorEl}
-               open={open}
-               onClose={handleClose}
-               MenuListProps={{
-                  'aria-labelledby': 'basic-button',
-               }}
+            <StyledMenuItem onClick={handleClose}>
+               <Logout />
+               Выйти
+            </StyledMenuItem>
+         </Menu>
+         <StyledPaper>
+            {withTabs && <HeaderTabs role={userRole} tabs={tabs} />}
+            <StyledDiv
+               id="basic-button"
+               aria-controls={open ? 'basic-menu' : undefined}
+               aria-haspopup="true"
+               aria-expanded={open ? 'true' : undefined}
+               onClick={handleClick}
             >
-               <StyledMenuItem onClick={handleClose}>
-                  <Logout />
-                  Выйти
-               </StyledMenuItem>
-            </Menu>
-            <StyledDivWrapper>
-               <UserLogo />
-               <StyledText>{role}</StyledText>
-               <KeyboardArrowDownIcon />
-            </StyledDivWrapper>
-         </StyledDiv>
-      </StyledPaper>
+               <StyledDivWrapper>
+                  <UserLogo />
+                  <StyledText>{userRole}</StyledText>
+                  <KeyboardArrowDownIcon />
+               </StyledDivWrapper>
+            </StyledDiv>
+         </StyledPaper>
+      </>
    )
 }

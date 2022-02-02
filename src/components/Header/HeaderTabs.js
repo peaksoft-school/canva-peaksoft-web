@@ -34,11 +34,15 @@ export default function HeaderTabs({ tabs = [] }) {
             onChange={handleChange}
             aria-label="basic tabs example"
          >
-            {tabs.map(tabItem => {
+            {tabs.map((tabItem) => {
                return (
-                  <Tab sx={style} label={tabItem.title} key={tabItem.title}>
-                     <NavLink to={tabItem.link}>{tabItem.title}</NavLink>
-                  </Tab>
+                  <Tab
+                     sx={style}
+                     label={tabItem.title}
+                     key={tabItem.title}
+                     component={NavLink}
+                     to={tabItem.link}
+                  />
                )
             })}
          </Tabs>
