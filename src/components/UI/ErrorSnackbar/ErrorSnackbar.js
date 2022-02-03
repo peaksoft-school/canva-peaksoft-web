@@ -10,14 +10,16 @@ const StyledSnackbar = styled(Snackbar)`
    }
 `
 
+
 export default function ErrorSnackbar({ open, handleClose, message }) {
    return (
       <StyledSnackbar
          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
          open={open}
-         autoHideDuration={100000}
+         autoHideDuration={1000}
          onClose={handleClose}
          message={message}
+
          ContentProps={{
             sx: {
                background: '#C91E1E',
