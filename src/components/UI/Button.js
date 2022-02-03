@@ -1,14 +1,29 @@
-import { Button as MUIButton } from '@mui/material'
+import { Button as MUIButton, Typography } from '@mui/material'
 import React from 'react'
 
-export default function Button({ children, variant, sx, ...other }) {
+export default function Button({
+   children,
+   variant,
+   sx,
+   align,
+   disableRipple,
+   className,
+   type,
+   ...other
+}) {
    return (
-      <MUIButton
-         variant={variant}
-         sx={{ textTransform: 'none', ...sx }}
-         {...other}
-      >
-         {children}
-      </MUIButton>
+      <Typography align={align || 'left'}>
+         <MUIButton
+            fullWidth
+            type={type}
+            className={className}
+            variant={variant}
+            sx={{ textTransform: 'none', ...sx }}
+            disableRipple={disableRipple}
+            {...other}
+         >
+            {children}
+         </MUIButton>
+      </Typography>
    )
 }

@@ -3,26 +3,24 @@ import Snackbar from '@mui/material/Snackbar'
 import { IconButton } from '@mui/material'
 import { ReactComponent as CheckMark } from '../../../assets/icons/checkMark.svg'
 
-export default function MySnackbar({ open, handleMessage, handleClose }) {
+export default function MySnackbar({ open, message, handleClose }) {
    return (
-      <div>
-         <Snackbar
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-            open={open}
-            autoHideDuration={1000}
-            onClose={handleClose}
-            message={handleMessage}
-            ContentProps={{
-               sx: {
-                  background: 'green',
-               },
-            }}
-            action={[
-               <IconButton onClick={handleClose}>
-                  <CheckMark />
-               </IconButton>,
-            ]}
-         />
-      </div>
+      <Snackbar
+         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+         open={open}
+         autoHideDuration={1000}
+         onClose={handleClose}
+         message={message}
+         ContentProps={{
+            sx: {
+               background: 'green',
+            },
+         }}
+         action={[
+            <IconButton onClick={handleClose}>
+               <CheckMark />
+            </IconButton>,
+         ]}
+      />
    )
 }

@@ -1,22 +1,24 @@
-import { Button } from '@mui/material'
-import styled from 'styled-components'
 import React from 'react'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import { IconButton } from '@mui/material'
 
-const StyledButton = styled(Button)`
-   font-size: 20px;
-   font-weight: bold;
-   color: black;
-`
-const StyledDiv = styled('div')`
-   display: flex;
-   justify-content: end;
-`
+const styles = {
+   fontSize: '20px',
+   fontWeight: 'bold',
+   color: 'black',
+   float: 'right',
+}
 
-const Meatballs = ({ onClick }) => {
+const Meatballs = ({ onClick, align, sx, ...otherProps }) => {
    return (
-      <StyledDiv>
-         <StyledButton onClick={onClick}>...</StyledButton>
-      </StyledDiv>
+      <IconButton
+         disableRipple
+         onClick={onClick}
+         sx={{ ...styles, ...sx }}
+         {...otherProps}
+      >
+         <MoreHorizIcon />
+      </IconButton>
    )
 }
 
