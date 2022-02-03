@@ -1,33 +1,24 @@
 import React from 'react'
 import Snackbar from '@mui/material/Snackbar'
 import { IconButton } from '@mui/material'
-import styled from 'styled-components'
-import { ReactComponent as Errorsvg } from '../../../assets/icons/error.svg'
+import { ReactComponent as CheckMark } from '../../../assets/icons/checkMark.svg'
 
-const StyledSnackbar = styled(Snackbar)`
-   .MuiPaper-root {
-      min-width: 180px;
-   }
-`
-
-
-export default function ErrorSnackbar({ open, handleClose, message }) {
+export default function MySnackbar({ open, message, handleClose }) {
    return (
-      <StyledSnackbar
+      <Snackbar
          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
          open={open}
          autoHideDuration={1000}
          onClose={handleClose}
          message={message}
-
          ContentProps={{
             sx: {
-               background: '#C91E1E',
+               background: 'green',
             },
          }}
          action={[
             <IconButton onClick={handleClose}>
-               <Errorsvg />
+               <CheckMark />
             </IconButton>,
          ]}
       />
