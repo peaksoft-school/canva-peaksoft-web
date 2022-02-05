@@ -12,12 +12,7 @@ icons.list.bullet = customIcons.bulletList
 icons.video = customIcons.video
 icons.image = customIcons.image
 icons['code-block'] = customIcons.code
-
-export const modules = {
-   toolbar: {
-      container: '#toolbar',
-   },
-}
+icons.link = customIcons.code
 
 // Formats objects for setting up the Quill editor
 export const formats = [
@@ -79,6 +74,7 @@ const CustomToolbar = () => (
             <ToolbarButton className="ql-image" />
             <ToolbarButton className="ql-video" />
             <ToolbarButton className="ql-code-block" />
+            <ToolbarButton className="ql-link" />
          </span>
       </div>
    </StyledWrapper>
