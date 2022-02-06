@@ -1,4 +1,4 @@
-import { Tooltip } from '@mui/material'
+import { Link, Tooltip } from '@mui/material'
 import { Box } from '@mui/system'
 import escapeHtml from 'escape-html'
 import React from 'react'
@@ -40,7 +40,6 @@ export const serialize = (node) => {
       return string
    }
    const children = node.children.map((n) => serialize(n)).join('')
-
    switch (node.type) {
       case 'quote':
          return `<blockquote><p>${children}</p></blockquote>`
@@ -57,17 +56,11 @@ export const serialize = (node) => {
    }
 }
 
-export const LessonFormToolbar = ({
-   addEditor,
-   setLinkModal,
-   addCodeEditor,
-   addFile,
-   addImage,
-}) => (
+export const LessonFormToolbar = ({ addEditor, setLinkModal }) => (
    <Flexer justify="space-around" width="30%">
       <Tooltip title="Текстовое поле" placement="top">
          <span>
-            <TextIcon onClick={() => addEditor()} />
+            <TextIcon onClick={() => addEditor('EDITOR')} />
          </span>
       </Tooltip>
       <Tooltip title="Прикрепить файл" placement="top">
@@ -76,7 +69,7 @@ export const LessonFormToolbar = ({
                id="file"
                type="file"
                sx={{ display: 'none' }}
-               onChange={(e) => addFile(e)}
+               onChange={(e) => addEditor('FILE', e)}
                multiple
             />
             <label htmlFor="file">
@@ -90,7 +83,7 @@ export const LessonFormToolbar = ({
                id="image"
                type="file"
                sx={{ display: 'none' }}
-               onChange={(e) => addImage(e)}
+               onChange={(e) => addEditor('IMAGE', e)}
                multiple
             />
             <label htmlFor="image">
@@ -105,8 +98,39 @@ export const LessonFormToolbar = ({
       </Tooltip>
       <Tooltip title="Код" placement="top">
          <span>
-            <Code onClick={() => addCodeEditor()} />
+            <Code onClick={() => addEditor('CODE_EDITOR')} />
          </span>
       </Tooltip>
+   </Flexer>
+)
+
+export const LinkComponent = ({ value, onRemove }) => (
+   <Flexer my={1} pl={1.5} py={2} key={value.text} justify="flex-start">
+      <LinkIcon onClick={onRemove} />
+      <Link pl={1} href={value.href} target="_blank" rel="noreferrer">
+         {value.text}
+      </Link>
+   </Flexer>
+)
+
+export const FileComponent = ({ value, onRemove }) => (
+   <Flexer pl={1.5} my={1} py={2}>
+      <File onClick={onRemove} />
+      <span style={{ paddingLeft: '8px' }}>{value.name}</span>
+   </Flexer>
+)
+
+export const ImageComponent = ({ value, onRemove }) => (
+   <Flexer pl={1.5} py={2}>
+      <Image onClick={onRemove} value={value} />
+      <img
+         src={value}
+         style={{
+            paddingLeft: '8px',
+            width: '60%',
+            height: '40%',
+         }}
+         alt="lessonImg"
+      />
    </Flexer>
 )

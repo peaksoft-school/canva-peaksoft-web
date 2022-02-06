@@ -1,183 +1,169 @@
-/* eslint-disable react/no-array-index-key */
-import { Box, Paper, Typography, styled, Link } from '@mui/material'
+/* eslint-disable no-unsafe-optional-chaining */
+import { DialogActions, Paper } from '@mui/material'
 import React from 'react'
 import Editor from '../components/TextEditor/Editor'
 import Button from '../components/UI/Button'
 import Input from '../components/UI/Input'
-import { ReactComponent as LinkIcon } from '../assets/icons/EditorIcons/link.svg'
-import { ReactComponent as Image } from '../assets/icons/EditorIcons/image.svg'
-import { ReactComponent as File } from '../assets/icons/EditorIcons/file.svg'
 import Modal from '../components/UI/Modal'
 import Flexer from '../components/UI/Flexer'
 import CodeEditor from '../components/TextEditor/CodeEditor'
 import {
+   FileComponent,
+   ImageComponent,
    LessonFormToolbar,
+   LinkComponent,
    serialize,
 } from '../components/TextEditor/EditorComponents'
+import classes from '../assets/styles/LessonForm.module.css'
 
-const initialLinks = {
-   links: [],
-   text: '',
-   href: '',
-}
-
-const linkReducer = (state, action) => {
-   switch (action.type) {
-      case 'LINK_TEXT':
-         return { ...state, text: action.payload }
-      case 'LINK_HREF':
-         return { ...state, href: action.payload }
-      case 'ADD_LINK':
-         if (!state.text && !state.href) return state
-         return { text: '', href: '', links: [...state.links, action.payload] }
-      case 'REMOVE_LINK':
-         return {
-            ...state,
-            links: state.links.filter(
-               (item, index) => index !== action.payload
-            ),
-         }
+const SwitchEditor = ({ type, value, onRemove, ...props }) => {
+   switch (type) {
+      case 'editor':
+         return <Editor onRemove={onRemove} value={value} {...props} />
+      case 'code_editor':
+         return <CodeEditor onRemove={onRemove} value={value} {...props} />
+      case 'image':
+         return <ImageComponent onRemove={onRemove} value={value[0]} />
+      case 'file':
+         return <FileComponent onRemove={onRemove} value={value[0]} />
+      case 'link':
+         return <LinkComponent onRemove={onRemove} value={value} {...props} />
       default:
-         return state
+         return console.error('ahahahahahah!!!')
    }
 }
 
 export default function LessonForm() {
+   const [count, setCount] = React.useState(0)
+
    const [inputs, setInputs] = React.useState([
-      [{ type: 'paragraph', children: [{ text: '' }] }],
+      {
+         type: 'editor',
+         content: [{ type: 'paragraph', children: [{ text: '' }] }],
+         order: 0,
+      },
    ])
 
    const onChangeInputs = (id, value) => {
       const newInputs = inputs
-      newInputs[id] = value
+      newInputs[id].content = value
       setInputs(newInputs)
    }
 
-   const addEditor = () => {
-      setInputs((prev) => [
-         ...prev,
-         [{ type: 'paragraph', children: [{ text: '' }] }],
-      ])
-   }
-
-   const [count, setCount] = React.useState(0)
-
-   const removeEditor = (id) => {
-      setCount(count + 1)
-      const updatedEditors = inputs
-      updatedEditors.splice(id, 1)
-      setInputs(updatedEditors)
-   }
-   const submitchik = (e) => {
-      e.preventDefault()
-      const input = inputs[0]
-      const serialized = input.map((item) => serialize(item))
-      console.log(serialized)
-   }
-
-   // links
-   const [links, dispatchLink] = React.useReducer(linkReducer, initialLinks)
    const [linkModal, setLinkModal] = React.useState(false)
 
-   const onAddLink = () => {
-      dispatchLink({
-         type: 'ADD_LINK',
-         payload: { text: links.text, href: links.href },
+   const [linkName, setLinkName] = React.useState('')
+   const [linkHref, setLinkHref] = React.useState('')
+
+   const addEditor = (type, value) => {
+      // value от файлов типа image, file
+      switch (type) {
+         case 'EDITOR':
+            return setInputs((prev) => [
+               ...prev,
+               {
+                  type: 'editor',
+                  content: [{ type: 'paragraph', children: [{ text: '' }] }],
+                  order: inputs[inputs.length - 1]?.order + 1 || 0,
+               },
+            ])
+         case 'CODE_EDITOR':
+            return setInputs((prev) => [
+               ...prev,
+               {
+                  type: 'code_editor',
+                  content: [{ type: 'code', children: [{ text: '' }] }],
+                  order: prev[prev.length - 1].order + 1 || 0,
+               },
+            ])
+         case 'IMAGE': {
+            const decode = Array.from(value.target.files)
+            const src = decode.map((img) => URL.createObjectURL(img))
+            return setInputs((prev) => [
+               ...prev,
+               {
+                  type: 'image',
+                  content: src,
+                  order: prev[prev.length - 1].order + 1 || 0,
+               },
+            ]) // url
+         }
+         case 'FILE':
+            return setInputs((prev) => [
+               ...prev,
+               {
+                  type: 'file',
+                  content: Array.from(value.target.files),
+                  order: prev[prev.length - 1].order + 1 || 0,
+               },
+            ])
+         case 'LINK':
+            setLinkModal(false)
+            return setInputs((prev) => [
+               ...prev,
+               {
+                  type: 'link',
+                  content: { text: linkName, href: linkHref },
+                  order: prev[prev.length - 1].order + 1 || 0,
+               },
+            ])
+         default:
+            return inputs
+      }
+   }
+
+   const removeEditor = (order) => {
+      setCount(count - 1)
+      setInputs((prev) => prev.filter((editor) => editor.order !== order))
+   }
+
+   const submitchik = (e) => {
+      e.preventDefault()
+      const editors = inputs.filter(
+         (editor) => editor.type === 'editor' || editor.type === 'code_editor'
+      )
+      const submitData = editors.map((item, index) => {
+         const serializedData = item.content.map((item) => serialize(item))
+         return { order: index, content: serializedData, type: 'text' }
       })
-      setLinkModal(false)
-   }
-
-   const handleRemoveLink = (id) => {
-      dispatchLink({ type: 'REMOVE_LINK', payload: id })
-   }
-
-   const handleLinkName = (e) => {
-      dispatchLink({ type: 'LINK_TEXT', payload: e.target.value })
-   }
-   const handleLinkHref = (e) => {
-      dispatchLink({ type: 'LINK_HREF', payload: e.target.value })
-   }
-
-   // code
-   const [codes, setCodes] = React.useState([])
-
-   const addCodeEditor = () => {
-      setCodes((prev) => [
-         ...prev,
-         [{ type: 'code', children: [{ text: '' }] }],
-      ])
-   }
-
-   const removeCodeEditor = (id) => {
-      setCount(count + 1)
-      const updatedEditors = codes
-      updatedEditors.splice(id, 1)
-      setCodes(updatedEditors)
-   }
-
-   const onChangeCodeEditor = (id, value) => {
-      const newCodeEditors = codes
-      newCodeEditors[id] = value
-      setCodes(newCodeEditors)
-   }
-
-   // file
-   const [files, setFiles] = React.useState([])
-   const handleSetFile = (e) => {
-      setFiles((prev) => [...prev, ...Array.from(e.target.files)])
-   }
-
-   const removeFile = (id) => {
-      setFiles((prev) => prev.filter((file, index) => index !== id))
-   }
-
-   const [images, setImages] = React.useState([])
-   const handleSetImage = (e) => {
-      const decode = Array.from(e.target.files)
-      const src = decode.map((img) => URL.createObjectURL(img))
-      setImages((prev) => [...prev, { src }])
-   }
-   console.log(images)
-   const removeImage = (id) => {
-      setImages((prev) => prev.filter((file, index) => index !== id))
+      console.log(submitData)
    }
 
    return (
       <>
-         <Modal
-            open={linkModal}
-            onClose={() => setLinkModal(false)}
-            sx={{ textAlign: 'center' }}
-         >
+         <Modal open={linkModal} onClose={() => setLinkModal(false)}>
             <Modal.Title>Добавить ссылку</Modal.Title>
             <Modal.Body>
                <Input
                   width="90%"
-                  value={links.text}
-                  onChange={handleLinkName}
+                  value={linkName}
+                  onChange={(e) => setLinkName(e.target.value)}
                   placeholder="Отображаемый текст"
                />
                <Input
                   width="90%"
-                  value={links.href}
-                  onChange={handleLinkHref}
+                  value={linkHref}
+                  onChange={(e) => setLinkHref(e.target.value)}
                   placeholder="Вставьте ссылку"
                />
             </Modal.Body>
             <Modal.Footer>
-               <Button variant="outlined" onClick={() => setLinkModal(false)}>
-                  Отмена
-               </Button>
-               <Button variant="contained" onClick={onAddLink}>
-                  Продолжить
-               </Button>
+               <DialogActions>
+                  <Button
+                     variant="outlined"
+                     onClick={() => setLinkModal(false)}
+                  >
+                     Отмена
+                  </Button>
+                  <Button variant="contained" onClick={() => addEditor('LINK')}>
+                     Продолжить
+                  </Button>
+               </DialogActions>
             </Modal.Footer>
          </Modal>
-         <StyledForm onSubmit={submitchik} component="form">
-            <FixedToolbar>
-               <Typography fontSize={18} component="h1" color="blue">
-                  Создать задание
-               </Typography>
+         <form className={classes['form-wrapper']} onSubmit={submitchik}>
+            <div className={classes['fixed-toolbar']}>
+               <h1 className={classes.title}>Создать задание</h1>
                <Flexer justify="space-between">
                   <Input
                      width="65%"
@@ -186,117 +172,35 @@ export default function LessonForm() {
                   />
                   <LessonFormToolbar
                      addEditor={addEditor}
-                     addCodeEditor={addCodeEditor}
                      setLinkModal={setLinkModal}
-                     addFile={handleSetFile}
-                     addImage={handleSetImage}
                   />
                </Flexer>
-            </FixedToolbar>
+            </div>
 
-            <Paper sx={{ p: 2, borderRadius: 4, mt: '10%', mx: 'auto' }}>
+            <Paper className={classes.editors}>
                {inputs.map((input, id) => (
-                  <Editor
-                     key={id}
-                     value={input}
+                  <SwitchEditor
+                     key={input.order}
+                     type={input.type}
+                     value={input.content}
+                     onRemove={() => removeEditor(input.order)}
                      onChange={(newValue) => onChangeInputs(id, newValue)}
-                     onRemove={() => removeEditor(id)}
                   />
                ))}
-               {links.links.map((link, id) => (
-                  <Flexer
-                     my={1}
-                     pl={1.5}
-                     py={2}
-                     key={link.text}
-                     justify="flex-start"
+               <DialogActions>
+                  <Button variant="outlined" placeholder="Отображаемый текст">
+                     Отмена
+                  </Button>
+                  <Button
+                     variant="contained"
+                     type="submit"
+                     placeholder="Вставьте ссылку"
                   >
-                     <LinkIcon onClick={() => handleRemoveLink(id)} />
-                     <Link
-                        pl={1}
-                        href={link.href}
-                        target="_blank"
-                        rel="noreferrer"
-                     >
-                        {link.text}
-                     </Link>
-                  </Flexer>
-               ))}
-               {codes.map((codeEditor, i) => (
-                  <CodeEditor
-                     key={i}
-                     onRemove={() => removeCodeEditor(i)}
-                     value={codeEditor}
-                     onChange={(value) => onChangeCodeEditor(i, value)}
-                  />
-               ))}
-               {files.map((file, index) => (
-                  <Flexer pl={1.5} my={1} py={2} key={file.name}>
-                     <File onClick={() => removeFile(index)} />
-                     <span style={{ paddingLeft: '8px' }}>{file.name}</span>
-                  </Flexer>
-               ))}
-               {images.map((image, index) => (
-                  <Flexer pl={1.5} py={2} key={image.src}>
-                     <Image onClick={() => removeImage(index)} />
-                     <img
-                        src={image.src}
-                        style={{
-                           paddingLeft: '8px',
-                           width: '60%',
-                           height: '40%',
-                        }}
-                        alt="lessonImg"
-                     />
-                  </Flexer>
-               ))}
+                     Сохранить
+                  </Button>
+               </DialogActions>
             </Paper>
-            <Box
-               sx={{
-                  float: 'right',
-                  display: 'flex',
-                  width: '20vw',
-                  justifyContent: 'space-between',
-                  p: '20px',
-               }}
-            >
-               <Button variant="outlined" placeholder="Отображаемый текст">
-                  Отмена
-               </Button>
-               <Button
-                  variant="contained"
-                  type="submit"
-                  placeholder="Вставьте ссылку"
-               >
-                  Сохранить
-               </Button>
-            </Box>
-         </StyledForm>
+         </form>
       </>
    )
 }
-
-const StyledForm = styled(Box)(() => ({
-   '&': {
-      background: 'rgb(251,251,251)',
-      width: '95%',
-      height: '95vh',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      padding: '1rem',
-      borderRadius: '5px',
-   },
-}))
-
-const FixedToolbar = styled(Box)(() => ({
-   '&': {
-      background: 'rgb(251,251,251)',
-      padding: 5,
-      marginTop: '16px',
-      borderRadius: '16px',
-      position: 'fixed',
-      width: '74%',
-      zIndex: 1,
-      top: 0,
-   },
-}))

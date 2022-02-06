@@ -10,11 +10,12 @@ export default function Button({
    className,
    type,
    onClick,
+   fullWidth,
    ...other
 }) {
    return (
       <MUIButton
-         fullWidth
+         fullWidth={fullWidth}
          type={type}
          className={className}
          variant={variant}

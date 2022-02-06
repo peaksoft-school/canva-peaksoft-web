@@ -23,11 +23,7 @@ const Title = ({ children }) => (
 
 const Body = ({ children }) => <List>{children}</List>
 
-const Footer = ({ children }) => (
-   <Box display="flex" p="20px" justifyContent="space-between">
-      {children}
-   </Box>
-)
+const Footer = ({ children }) => <Box p="20px">{children}</Box>
 
 Modal.Title = Title
 Modal.Body = Body
@@ -39,9 +35,8 @@ export default function Modal({ open, onClose, children, sx }) {
          fullWidth
          maxWidth="sm"
          open={open}
-         borderradius="10"
          onClose={onClose}
-         sx={sx}
+         sx={{ textAlign: 'center', ...sx }}
       >
          {children}
       </StyledDialog>
