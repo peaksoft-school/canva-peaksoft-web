@@ -12,10 +12,12 @@ export default function Input({
    placeholder,
    className,
    onChange,
+   value,
    ...otherProps
 }) {
    return (
       <StyledTextField
+         value={value}
          className={className}
          sx={{ width: 1 }}
          placeholder={placeholder}
