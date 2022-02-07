@@ -41,15 +41,24 @@ const SwitchEditor = ({ type, value, onRemove, ...props }) => {
    }
 }
 
+const incId = () => {
+   let count = 0
+   const inc = () => {
+      count++
+      return count
+   }
+   return inc
+}
+const getIncrementedId = incId()
+
 export default function LessonForm() {
    const [inputs, setInputs] = React.useState([
       {
          type: 'editor',
          content: [{ type: 'paragraph', children: [{ text: '' }] }],
-         order: 0,
+         id: 0,
       },
    ])
-   const order = inputs[inputs.length - 1]?.order + 1 || 0
 
    const onChangeInputs = (id, value) => {
       const newInputs = inputs
@@ -67,7 +76,7 @@ export default function LessonForm() {
          {
             type: EDITOR,
             content: [{ type: 'paragraph', children: [{ text: '' }] }],
-            order,
+            id: getIncrementedId(),
          },
       ])
    }
@@ -78,7 +87,7 @@ export default function LessonForm() {
          {
             type: CODE_EDITOR,
             content: [{ type: 'code', children: [{ text: '' }] }],
-            order,
+            id: getIncrementedId(),
          },
       ])
    }
@@ -89,7 +98,7 @@ export default function LessonForm() {
          {
             type: FILE,
             content: Array.from(value.target.files),
-            order,
+            id: getIncrementedId(),
          },
       ])
    }
@@ -102,13 +111,13 @@ export default function LessonForm() {
          {
             type: IMAGE,
             content: src,
-            order,
+            id: getIncrementedId(),
          },
       ]) // url
    }
 
-   const removeEditor = (order) => {
-      setInputs((prev) => prev.filter((editor) => editor.order !== order))
+   const removeEditor = (id) => {
+      setInputs((prev) => prev.filter((editor) => editor.id !== id))
    }
 
    const submitchik = (e) => {
@@ -116,6 +125,7 @@ export default function LessonForm() {
       const editors = inputs.filter(
          (editor) => editor.type === EDITOR || editor.type === CODE_EDITOR
       )
+
       const submitData = editors.map((editorState, index) => {
          const serializedData = editorState.content.map((item) =>
             serialize(item)
@@ -126,6 +136,14 @@ export default function LessonForm() {
             type: editorState.type,
          }
       })
+
+      const orderedEditors = inputs.map((input, index) => ({
+         content: input.content,
+         order: index,
+         type: input.type,
+      }))
+
+      console.log(orderedEditors)
       console.log(submitData)
    }
 
@@ -181,13 +199,13 @@ export default function LessonForm() {
             </div>
 
             <Paper className={classes.editors}>
-               {inputs.map((input, id) => (
+               {inputs.map((input) => (
                   <SwitchEditor
-                     key={input.order}
+                     key={input.id}
                      type={input.type}
                      value={input.content}
-                     onRemove={() => removeEditor(input.order)}
-                     onChange={(newValue) => onChangeInputs(id, newValue)}
+                     onRemove={() => removeEditor(input.id)}
+                     onChange={(newValue) => onChangeInputs(input.id, newValue)}
                   />
                ))}
                <DialogActions>
