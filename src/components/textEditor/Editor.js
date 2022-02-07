@@ -1,8 +1,6 @@
 import React from 'react'
-import ReactQuill from 'react-quill'
 import styled from 'styled-components'
-import CustomToolbar, { modules, formats } from './EditorToolbar'
-import 'react-quill/dist/quill.snow.css'
+import CustomToolbar from './EditorToolbar'
 
 const StyledTextEditor = styled.div`
    .ql-container {
@@ -47,20 +45,9 @@ const StyledTextEditor = styled.div`
 `
 
 export const Editor = () => {
-   const [state, setState] = React.useState({ value: null })
-   const handleChange = (value) => {
-      setState({ value })
-   }
    return (
       <StyledTextEditor>
          <CustomToolbar />
-         <ReactQuill
-            value={state.value}
-            onChange={handleChange}
-            placeholder="Добавьте задание / я"
-            modules={modules}
-            formats={formats}
-         />
       </StyledTextEditor>
    )
 }

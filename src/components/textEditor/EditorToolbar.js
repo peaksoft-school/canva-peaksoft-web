@@ -1,17 +1,5 @@
 import React from 'react'
-import { Quill } from 'react-quill'
 import styled from 'styled-components'
-import customIcons from './EditorIcons'
-
-const icons = Quill.import('ui/icons')
-icons.bold = customIcons.bold
-icons.italic = customIcons.italic
-icons.underline = customIcons.underine
-icons.list.ordered = customIcons.orderedList
-icons.list.bullet = customIcons.bulletList
-icons.video = customIcons.video
-icons.image = customIcons.image
-icons['code-block'] = customIcons.code
 
 export const modules = {
    toolbar: {

@@ -76,6 +76,7 @@ const dataSlice = createSlice({
    name: 'data',
    initialState: {
       data: DUMMY_DATA,
+      loading: true,
    },
 })
 
