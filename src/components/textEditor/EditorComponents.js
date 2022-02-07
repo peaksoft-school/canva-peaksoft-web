@@ -56,11 +56,17 @@ export const serialize = (node) => {
    }
 }
 
-export const LessonFormToolbar = ({ addEditor, setLinkModal }) => (
+export const LessonFormToolbar = ({
+   addEditor,
+   setLinkModal,
+   addFile,
+   addCodeEditor,
+   addImage,
+}) => (
    <Flexer justify="space-around" width="30%">
       <Tooltip title="Текстовое поле" placement="top">
          <span>
-            <TextIcon onClick={() => addEditor('EDITOR')} />
+            <TextIcon onClick={addEditor} />
          </span>
       </Tooltip>
       <Tooltip title="Прикрепить файл" placement="top">
@@ -69,7 +75,7 @@ export const LessonFormToolbar = ({ addEditor, setLinkModal }) => (
                id="file"
                type="file"
                sx={{ display: 'none' }}
-               onChange={(e) => addEditor('FILE', e)}
+               onChange={addFile}
                multiple
             />
             <label htmlFor="file">
@@ -83,7 +89,7 @@ export const LessonFormToolbar = ({ addEditor, setLinkModal }) => (
                id="image"
                type="file"
                sx={{ display: 'none' }}
-               onChange={(e) => addEditor('IMAGE', e)}
+               onChange={addImage}
                multiple
             />
             <label htmlFor="image">
@@ -98,7 +104,7 @@ export const LessonFormToolbar = ({ addEditor, setLinkModal }) => (
       </Tooltip>
       <Tooltip title="Код" placement="top">
          <span>
-            <Code onClick={() => addEditor('CODE_EDITOR')} />
+            <Code onClick={addCodeEditor} />
          </span>
       </Tooltip>
    </Flexer>

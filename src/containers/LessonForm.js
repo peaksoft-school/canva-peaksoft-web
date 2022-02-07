@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-unsafe-optional-chaining */
 import { DialogActions, Paper } from '@mui/material'
 import React from 'react'
@@ -15,27 +16,32 @@ import {
    serialize,
 } from '../components/TextEditor/EditorComponents'
 import classes from '../assets/styles/LessonForm.module.css'
+import {
+   CODE_EDITOR,
+   EDITOR,
+   FILE,
+   IMAGE,
+   LINK,
+} from '../utils/constants/editorConstants'
 
 const SwitchEditor = ({ type, value, onRemove, ...props }) => {
    switch (type) {
-      case 'editor':
+      case EDITOR:
          return <Editor onRemove={onRemove} value={value} {...props} />
-      case 'code_editor':
+      case CODE_EDITOR:
          return <CodeEditor onRemove={onRemove} value={value} {...props} />
-      case 'image':
+      case IMAGE:
          return <ImageComponent onRemove={onRemove} value={value[0]} />
-      case 'file':
+      case FILE:
          return <FileComponent onRemove={onRemove} value={value[0]} />
-      case 'link':
+      case LINK:
          return <LinkComponent onRemove={onRemove} value={value} {...props} />
       default:
-         return console.error('ahahahahahah!!!')
+         return null
    }
 }
 
 export default function LessonForm() {
-   const [count, setCount] = React.useState(0)
-
    const [inputs, setInputs] = React.useState([
       {
          type: 'editor',
@@ -43,6 +49,7 @@ export default function LessonForm() {
          order: 0,
       },
    ])
+   const order = inputs[inputs.length - 1]?.order + 1 || 0
 
    const onChangeInputs = (id, value) => {
       const newInputs = inputs
@@ -54,77 +61,70 @@ export default function LessonForm() {
 
    const [linkName, setLinkName] = React.useState('')
    const [linkHref, setLinkHref] = React.useState('')
+   const addEditor = () => {
+      setInputs((prev) => [
+         ...prev,
+         {
+            type: EDITOR,
+            content: [{ type: 'paragraph', children: [{ text: '' }] }],
+            order,
+         },
+      ])
+   }
 
-   const addEditor = (type, value) => {
-      // value от файлов типа image, file
-      switch (type) {
-         case 'EDITOR':
-            return setInputs((prev) => [
-               ...prev,
-               {
-                  type: 'editor',
-                  content: [{ type: 'paragraph', children: [{ text: '' }] }],
-                  order: inputs[inputs.length - 1]?.order + 1 || 0,
-               },
-            ])
-         case 'CODE_EDITOR':
-            return setInputs((prev) => [
-               ...prev,
-               {
-                  type: 'code_editor',
-                  content: [{ type: 'code', children: [{ text: '' }] }],
-                  order: prev[prev.length - 1].order + 1 || 0,
-               },
-            ])
-         case 'IMAGE': {
-            const decode = Array.from(value.target.files)
-            const src = decode.map((img) => URL.createObjectURL(img))
-            return setInputs((prev) => [
-               ...prev,
-               {
-                  type: 'image',
-                  content: src,
-                  order: prev[prev.length - 1].order + 1 || 0,
-               },
-            ]) // url
-         }
-         case 'FILE':
-            return setInputs((prev) => [
-               ...prev,
-               {
-                  type: 'file',
-                  content: Array.from(value.target.files),
-                  order: prev[prev.length - 1].order + 1 || 0,
-               },
-            ])
-         case 'LINK':
-            setLinkModal(false)
-            return setInputs((prev) => [
-               ...prev,
-               {
-                  type: 'link',
-                  content: { text: linkName, href: linkHref },
-                  order: prev[prev.length - 1].order + 1 || 0,
-               },
-            ])
-         default:
-            return inputs
-      }
+   const addCodeEditor = () => {
+      setInputs((prev) => [
+         ...prev,
+         {
+            type: CODE_EDITOR,
+            content: [{ type: 'code', children: [{ text: '' }] }],
+            order,
+         },
+      ])
+   }
+
+   const addFile = (value) => {
+      setInputs((prev) => [
+         ...prev,
+         {
+            type: FILE,
+            content: Array.from(value.target.files),
+            order,
+         },
+      ])
+   }
+
+   const addImage = (value) => {
+      const decode = Array.from(value.target.files)
+      const src = decode.map((img) => URL.createObjectURL(img))
+      return setInputs((prev) => [
+         ...prev,
+         {
+            type: IMAGE,
+            content: src,
+            order,
+         },
+      ]) // url
    }
 
    const removeEditor = (order) => {
-      setCount(count - 1)
       setInputs((prev) => prev.filter((editor) => editor.order !== order))
    }
 
    const submitchik = (e) => {
       e.preventDefault()
       const editors = inputs.filter(
-         (editor) => editor.type === 'editor' || editor.type === 'code_editor'
+         (editor) => editor.type === EDITOR || editor.type === CODE_EDITOR
       )
-      const submitData = editors.map((item, index) => {
-         const serializedData = item.content.map((item) => serialize(item))
-         return { order: index, content: serializedData, type: 'text' }
+      const submitData = editors.map((editorState, index) => {
+         const serializedData = editorState.content.map((item) =>
+            serialize(item)
+         )
+         return {
+            order: index,
+            content: { serialized: serializedData, notSerialized: editorState },
+            type: editorState.type,
+         }
       })
       console.log(submitData)
    }
@@ -172,6 +172,9 @@ export default function LessonForm() {
                   />
                   <LessonFormToolbar
                      addEditor={addEditor}
+                     addCodeEditor={addCodeEditor}
+                     addFile={addFile}
+                     addImage={addImage}
                      setLinkModal={setLinkModal}
                   />
                </Flexer>
