@@ -1,0 +1,5 @@
+export const EDITOR = 'editor'
+export const CODE_EDITOR = 'code_editor'
+export const FILE = 'file'
+export const LINK = 'link'
+export const IMAGE = 'image'

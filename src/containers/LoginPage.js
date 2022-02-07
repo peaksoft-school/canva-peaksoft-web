@@ -14,10 +14,9 @@ export default function LoginPage() {
    const [isLoading, setIsloading] = React.useState(false)
 
    const handleLogin = (formValue) => {
-      console.log(formValue)
       // const { email, password } = formValue
       // dispatch(login({ email, password }))
-      setIsloading(true)
+      setIsloading(formValue)
       return navigate('/admin')
    }
 

@@ -15,7 +15,7 @@ export default function Layout() {
          <Box
             sx={{
                backgroundColor: 'rgb(239,240,244)',
-               width: '100%',
+               width: '100vw',
                p: 1,
                minHeight: '100vh',
                height: '100%',
