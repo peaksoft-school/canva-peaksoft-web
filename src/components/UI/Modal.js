@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 import { Box, styled } from '@mui/material'
 
 const Title = ({ children }) => (
-   <AppBar sx={{ position: 'relative' }}>
+   <AppBar sx={{ position: 'relative', mb: '1rem' }}>
       <Toolbar>
          <Typography
             sx={{ flex: 1 }}
@@ -23,35 +23,23 @@ const Title = ({ children }) => (
 
 const Body = ({ children }) => <List>{children}</List>
 
-const Footer = ({ children }) => (
-   <Box
-      display="flex"
-      width="38%"
-      p="20px"
-      ml="auto"
-      justifyContent="space-between"
-   >
-      {children}
-   </Box>
-)
+const Footer = ({ children }) => <Box p="20px">{children}</Box>
 
 Modal.Title = Title
 Modal.Body = Body
 Modal.Footer = Footer
 
-export default function Modal({ open, onClose, children }) {
+export default function Modal({ open, onClose, children, sx }) {
    return (
-      <div>
-         <StyledDialog
-            fullWidth
-            maxWidth="sm"
-            open={open}
-            borderradius="10"
-            onClose={onClose}
-         >
-            {children}
-         </StyledDialog>
-      </div>
+      <StyledDialog
+         fullWidth
+         maxWidth="sm"
+         open={open}
+         onClose={onClose}
+         sx={{ textAlign: 'center', ...sx }}
+      >
+         {children}
+      </StyledDialog>
    )
 }
 

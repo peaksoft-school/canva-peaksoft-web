@@ -12,12 +12,21 @@ export default function Input({
    placeholder,
    className,
    onChange,
+   width,
+   inputProps,
+   hidden,
+   id,
+   multiple,
+   sx,
    ...otherProps
 }) {
    return (
       <StyledTextField
          className={className}
-         sx={{ width: 1 }}
+         id={id}
+         multiple={multiple}
+         hidden={hidden}
+         sx={{ width: width || 1, m: 0.5, ...sx }}
          placeholder={placeholder}
          onChange={onChange}
          size="small"
