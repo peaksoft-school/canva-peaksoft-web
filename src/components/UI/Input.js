@@ -12,16 +12,21 @@ export default function Input({
    placeholder,
    className,
    onChange,
+<<<<<<< HEAD
    width,
    inputProps,
    hidden,
    id,
    multiple,
    sx,
+=======
+   value,
+>>>>>>> 33ed09735f741092afb3799cb11dfb1d7ececac8
    ...otherProps
 }) {
    return (
       <StyledTextField
+         value={value}
          className={className}
          id={id}
          multiple={multiple}
