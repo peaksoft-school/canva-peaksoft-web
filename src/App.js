@@ -1,13 +1,9 @@
 import React from 'react'
 import './App.css'
-import TestFormHeader from './components/TestForm/TestForm'
-// import MainRouter from './routes/MainRouter'
+import MainRouter from './routes/MainRouter'
 
 function App() {
-   return (
-      // <MainRouter />
-      <TestFormHeader />
-   )
+   return <MainRouter />
 }
 
 export default App
