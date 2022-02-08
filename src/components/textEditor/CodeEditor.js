@@ -1,9 +1,10 @@
-import { styled } from '@mui/material'
+import { styled, Tooltip } from '@mui/material'
 import React from 'react'
 import { createEditor } from 'slate'
 import { Editable, Slate, withReact } from 'slate-react'
 import Flexer from '../UI/Flexer'
 import { ReactComponent as Code } from '../../assets/icons/EditorIcons/code.svg'
+import { ReactComponent as RemoveIcon } from '../../assets/icons/EditorIcons/removeIcon.svg'
 
 const DefaultElement = ({ attributes, children }) => {
    return (
@@ -18,7 +19,9 @@ const CodeEditor = ({ value, onChange, onRemove }) => {
    return (
       <Slate editor={editor} value={value} onChange={onChange}>
          <Flexer justify="space-around" my={3}>
-            <Code onClick={onRemove} />
+            <Tooltip title={<RemoveIcon onClick={onRemove} />}>
+               <Code />
+            </Tooltip>
             <StyledEditor>
                <Editable
                   renderElement={(values) => <DefaultElement {...values} />}

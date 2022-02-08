@@ -61,13 +61,12 @@ export default function LessonForm() {
    ])
 
    const onChangeInputs = (id, value) => {
-      const newInputs = inputs
+      const newInputs = [...inputs]
       newInputs[id].content = value
       setInputs(newInputs)
    }
 
    const [linkModal, setLinkModal] = React.useState(false)
-
    const [linkName, setLinkName] = React.useState('')
    const [linkHref, setLinkHref] = React.useState('')
    const addEditor = () => {
@@ -199,13 +198,13 @@ export default function LessonForm() {
             </div>
 
             <Paper className={classes.editors}>
-               {inputs.map((input) => (
+               {inputs.map((input, id) => (
                   <SwitchEditor
                      key={input.id}
                      type={input.type}
                      value={input.content}
                      onRemove={() => removeEditor(input.id)}
-                     onChange={(newValue) => onChangeInputs(input.id, newValue)}
+                     onChange={(newValue) => onChangeInputs(id, newValue)}
                   />
                ))}
                <DialogActions>

@@ -5,6 +5,7 @@ export default function Flexer({
    sx,
    justify,
    children,
+   display,
    alignItems,
    width,
    mt,
@@ -19,7 +20,7 @@ export default function Flexer({
          sx={{
             width,
             mx: 'auto',
-            display: 'flex',
+            display: display || 'flex',
             flexWrap: 'wrap',
             justifyContent: justify,
             alignItems: alignItems || 'center',
