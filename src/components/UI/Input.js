@@ -2,11 +2,17 @@ import { TextField } from '@mui/material'
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledTextField = styled(TextField)`
-   .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
-      border-radius: 10px;
-   }
-`
+const StyledTextField = styled(TextField)(() => ({
+   '&.MuiTextField-root': {
+      borderRadius: '10px',
+   },
+   '&.MuiButtonBase-root:hover': {
+      background: 'none',
+   },
+   '& .MuiOutlinedInput-root': {
+      borderRadius: '10px',
+   },
+}))
 export default function Input({
    children,
    placeholder,

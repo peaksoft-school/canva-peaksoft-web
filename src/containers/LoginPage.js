@@ -1,22 +1,29 @@
 import React from 'react'
 import * as Yup from 'yup'
-import { Box, Button } from '@mui/material'
+import { Box, InputAdornment } from '@mui/material'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import loginImg from '../assets/images/loginImage.png'
 import classes from '../assets/styles/LoginPage.module.css'
 import Input from '../components/UI/Input'
 import Loading from '../components/UI/Loading'
+import Button from '../components/UI/Button'
+import { ReactComponent as Visibility } from '../assets/icons/showPassword.svg'
+import { ReactComponent as VisibilityOff } from '../assets/icons/hidePassword.svg'
 
 export default function LoginPage() {
-   // const isLoggedIn = false
    const navigate = useNavigate()
+
+   // const isLoggedIn = false
    const [isLoading, setIsloading] = React.useState(false)
+   const [showPassword, setShowPassword] = React.useState(false)
+   const handleClickShowPassword = () => setShowPassword(!showPassword)
 
    const handleLogin = (formValue) => {
+      console.log(formValue)
       // const { email, password } = formValue
       // dispatch(login({ email, password }))
-      setIsloading(formValue)
+      setIsloading(true)
       return navigate('/admin')
    }
 
@@ -38,11 +45,10 @@ export default function LoginPage() {
       validationSchema,
       onSubmit: handleLogin,
    })
-
    // if (isLoggedIn) return navigate('/admin')
 
    return (
-      <Box className={classes.container} sx={{ opacity: isLoading ? 0.9 : '' }}>
+      <Box className={classes.container} sx={{ opacity: isLoading ? 0.7 : '' }}>
          <Loading className={classes.loading} display={isLoading} />
          <div className={classes.leftSide}>
             <img className={classes.loginImg} src={loginImg} alt="loginImage" />
@@ -56,7 +62,6 @@ export default function LoginPage() {
                <label htmlFor="email">Логин:</label>
                <Input
                   id="email"
-                  name="email"
                   placeholder="Введите email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
@@ -65,18 +70,41 @@ export default function LoginPage() {
                />
                <label htmlFor="password">Пароль:</label>
                <Input
-                  placeholder="Введите пароль"
-                  name="password"
                   id="password"
-                  type="password"
+                  placeholder="Введите пароль"
+                  type={showPassword ? 'text' : 'password'}
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   error={
                      formik.touched.password && Boolean(formik.errors.password)
                   }
                   helperText={formik.touched.password && formik.errors.password}
+                  InputProps={{
+                     endAdornment: (
+                        <InputAdornment position="end">
+                           {formik.values.password && (
+                              <Button
+                                 onClick={handleClickShowPassword}
+                                 disableRipple
+                              >
+                                 {showPassword ? (
+                                    <Visibility />
+                                 ) : (
+                                    <VisibilityOff />
+                                 )}
+                              </Button>
+                           )}
+                        </InputAdornment>
+                     ),
+                  }}
                />
-               <Button sx={{ fontSize: 18 }} variant="contained" type="submit">
+               <Button
+                  align="center"
+                  sx={{ fontSize: 18 }}
+                  variant="contained"
+                  type="submit"
+                  className={classes.submitButton}
+               >
                   Войти
                </Button>
             </form>
