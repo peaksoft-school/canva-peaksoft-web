@@ -20,6 +20,7 @@ import {
    liList,
 } from '../../assets/icons/EditorIcons/editorIcons'
 import Flexer from '../UI/Flexer'
+import { ReactComponent as RemoveIcon } from '../../assets/icons/EditorIcons/removeIcon.svg'
 
 export default function TextEditor({ value, onChange, onRemove }) {
    const renderElement = React.useCallback(
@@ -60,7 +61,9 @@ export default function TextEditor({ value, onChange, onRemove }) {
                />
             </Toolbar>
             <Flexer justify="space-around" my={3}>
-               <Text onClick={onRemove} />
+               <Tooltip title={<RemoveIcon onClick={onRemove} />}>
+                  <Text />
+               </Tooltip>
                <StyledEditor>
                   <Editable
                      renderElement={renderElement}

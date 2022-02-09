@@ -2,6 +2,12 @@ import { styled, TextField } from '@mui/material'
 import React from 'react'
 
 const StyledTextField = styled(TextField)(() => ({
+   '&.MuiTextField-root': {
+      borderRadius: '10px',
+   },
+   '&.MuiButtonBase-root:hover': {
+      background: 'none',
+   },
    '& .MuiOutlinedInput-root': {
       borderRadius: '10px',
    },
