@@ -53,10 +53,10 @@
     margin: 10px 0 10px 0;
 }
 
-.loginForm button {
-    width: 40%;
-    margin: 0 auto;
-    margin-top: 20px;
+.submitButton {
+    width: 40% !important;
+    margin: 0 auto !important;
+    margin-top: 20px !important;
 }
 
 @media screen and (max-width: 800px) {
