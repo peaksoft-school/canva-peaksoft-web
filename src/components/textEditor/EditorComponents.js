@@ -128,52 +128,54 @@ export const FileComponent = ({ value, onRemove }) => (
       <Tooltip title={<RemoveIcon onClick={onRemove} />}>
          <File />
       </Tooltip>
-      <span style={{ paddingLeft: '8px' }}>{value.name}</span>
+      <FileName>{value.name}</FileName>
    </Flexer>
 )
 
+const FileName = styled('span')(() => ({
+   paddingLeft: '8px',
+}))
+
 export const ImageComponent = ({ value, onRemove }) => {
+   const [showButton, setShowButton] = React.useState(false)
    return (
-      <div style={{ position: 'relative' }}>
-         <StyledDiv>
-            <StyledImg src={value} alt="lessonImg" />
-            <Button
-               onClick={onRemove}
-               sx={{
-                  backgroundColor: '#C91E1E',
-                  position: 'absolute',
-                  color: '#FFFFFF',
-                  left: '25%',
-                  top: '50%',
-                  transform: 'translate(-50%, -50%)',
-               }}
-            >
-               Удалить
-            </Button>
-         </StyledDiv>
-      </div>
+      <StyledDiv style={{ position: 'relative' }}>
+         <div
+            onMouseEnter={() => setShowButton(true)}
+            onMouseLeave={() => setShowButton(false)}
+         >
+            <img src={value} alt="lessonImg" />
+            {showButton && <Button onClick={onRemove}>Удалить</Button>}
+         </div>
+      </StyledDiv>
    )
 }
 
-const StyledImg = styled('img')(() => ({
-   width: '100%',
-   height: '100%',
-   marginBottom: '-3.5px',
-}))
-
 const StyledDiv = styled('div')(() => ({
-   width: '50%',
-   height: '50%',
-   button: {
-      display: 'none',
+   position: 'relative',
+   '& div': {
+      width: '50%',
+      height: '50%',
    },
-   '&:hover': {
+   img: {
+      width: '100%',
+      height: '100%',
+      marginBottom: '-3.5px',
+   },
+   button: {
+      backgroundColor: '#C91E1E',
+      position: 'absolute',
+      color: '#FFFFFF',
+      left: '25%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+   },
+   '& div:hover': {
       background: 'rgba(0, 0, 0, 0.8)',
       img: {
          opacity: 0.7,
       },
       button: {
-         display: 'inline',
          background: '#C91E1E',
       },
    },
