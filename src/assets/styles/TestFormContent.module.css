@@ -8,20 +8,6 @@
     border-radius: 10px;
 }
 
-.form-title-container {
-    background: #ffffff;
-    padding: 5px 10px 15px 10px;
-    border-radius: 10px;
-}
-
-.form-title-container:not(:first-child){
-    margin-top: 30px;
-}
-
-.form-title-container h3 {
-    margin: 10px 0 10px 0;
-}
-
 .form-title {
     font-style: normal;
     font-weight: 600;

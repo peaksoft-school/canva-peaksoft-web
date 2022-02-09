@@ -15,7 +15,9 @@ export default function TestFormContent({
    onDuplicate,
    onDelete,
 }) {
+   // radio-button
    const [selectedValue, setSelectedValue] = React.useState('')
+   // checkbox-buttonS
    const [checkboxes, setCheckBoxes] = React.useState([])
 
    const [inputForm, setInputForm] = React.useState({
@@ -30,9 +32,11 @@ export default function TestFormContent({
             newForms[id] = inputForm
             return newForms
          })
-      }, 300)
+      }, 1000)
       return () => clearTimeout(debounce)
    }, [inputForm])
+
+   React.useEffect(() => setInputForm({ ...data }), [data.testName])
 
    React.useEffect(() => {
       const updatedVariants = inputForm.variants.map((variant) => ({
@@ -68,9 +72,14 @@ export default function TestFormContent({
 
    const handleRadioChange = (e, index) => {
       setSelectedValue(e.target.value)
-      const newInputs = { ...inputForm }
-      newInputs.variants[index].isCorrect = !newInputs.variants[index].isCorrect
-      setInputForm(newInputs)
+      const updatedVariants = inputForm.variants.map((variant) => ({
+         ...variant,
+         isCorrect: false,
+      }))
+      updatedVariants[index].isCorrect = true
+      setInputForm((prev) => {
+         return { ...prev, variants: updatedVariants }
+      })
    }
 
    const handleChange = (index, event) => {
@@ -120,78 +129,73 @@ export default function TestFormContent({
       setInputForm((prev) => ({ ...prev, type }))
    }
 
-   const handleChangeTestname = (e) => {
-      setInputForm((prev) => ({ ...prev, testName: e.target.value }))
+   const handleChangeQuestion = (e) => {
+      setInputForm((prev) => ({ ...prev, question: e.target.value }))
    }
 
    return (
-      <>
-         <div className={classes['form-title-container']}>
-            <h3 className={classes['form-title']}>Название теста</h3>
-            <Input
-               placeholder="Введите название теста"
-               onChange={handleChangeTestname}
-               value={inputForm.testName}
-            />
-         </div>
-         <div className={classes['test-form-wrapper']}>
-            <Container width="98%">
-               <Flexer justify="space-around" mt="20px" flexWrap="no-wrap">
-                  <span className={classes.order}>
-                     <span>{data.order}</span>
-                  </span>
-                  <Input width="60%" placeholder="Вопрос" />
-                  <Radio
-                     checked={inputForm.type === 'SINGLE'}
-                     onChange={() => handleChangeType('SINGLE')}
-                  />
-                  <p>Один из списка</p>
-
-                  <Radio
-                     checked={inputForm.type === 'MULTIPLE'}
-                     onChange={() => handleChangeType('MULTIPLE')}
-                  />
-                  <p>Несколько из списка</p>
-               </Flexer>
-               <Variants
-                  variants={inputForm}
-                  clearInput={clearInput}
-                  selectedRadio={selectedValue}
-                  handleCheckboxChange={handleCheckboxChange}
-                  handleRadioChange={handleRadioChange}
-                  handleInputChange={handleChange}
+      <div className={classes['test-form-wrapper']}>
+         <Container width="98%">
+            <Flexer justify="space-around" mt="20px" flexWrap="no-wrap">
+               <span className={classes.order}>
+                  <span>{data.order}</span>
+               </span>
+               <Input
+                  width="60%"
+                  placeholder="Вопрос"
+                  value={inputForm.question}
+                  onChange={handleChangeQuestion}
                />
-               <Flexer width="95%" justify="space-between" my={1.5}>
-                  <div>
-                     <button
-                        type="button"
-                        className={classes['add-variant']}
-                        onClick={addForm}
-                     >
-                        Добавить вариант <b> или </b>
-                     </button>
-                     <button
-                        type="button"
-                        className={classes['add-other-variant']}
-                        onClick={addOtherVariant}
-                     >
-                        добавить вариант “Другое”
-                     </button>
-                  </div>
-                  <div>
-                     <DublicateSvg
-                        style={{ margin: '10px' }}
-                        onClick={() => onDuplicate(data)}
-                     />
+               <Radio
+                  checked={inputForm.type === 'SINGLE'}
+                  onChange={() => handleChangeType('SINGLE')}
+               />
+               <p>Один из списка</p>
 
-                     <DeleteTestSvg
-                        style={{ margin: '10px' }}
-                        onClick={() => onDelete(data.id)}
-                     />
-                  </div>
-               </Flexer>
-            </Container>
-         </div>
-      </>
+               <Radio
+                  checked={inputForm.type === 'MULTIPLE'}
+                  onChange={() => handleChangeType('MULTIPLE')}
+               />
+               <p>Несколько из списка</p>
+            </Flexer>
+            <Variants
+               variants={inputForm}
+               clearInput={clearInput}
+               selectedRadio={selectedValue}
+               handleCheckboxChange={handleCheckboxChange}
+               handleRadioChange={handleRadioChange}
+               handleInputChange={handleChange}
+            />
+            <Flexer width="95%" justify="space-between" my={1.5}>
+               <div>
+                  <button
+                     type="button"
+                     className={classes['add-variant']}
+                     onClick={addForm}
+                  >
+                     Добавить вариант <b> или </b>
+                  </button>
+                  <button
+                     type="button"
+                     className={classes['add-other-variant']}
+                     onClick={addOtherVariant}
+                  >
+                     добавить вариант “Другое”
+                  </button>
+               </div>
+               <div>
+                  <DublicateSvg
+                     style={{ margin: '10px' }}
+                     onClick={() => onDuplicate(data)}
+                  />
+
+                  <DeleteTestSvg
+                     style={{ margin: '10px' }}
+                     onClick={() => onDelete(data.id)}
+                  />
+               </div>
+            </Flexer>
+         </Container>
+      </div>
    )
 }

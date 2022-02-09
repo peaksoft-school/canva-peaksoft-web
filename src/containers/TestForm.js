@@ -4,11 +4,13 @@ import TestFormContent from '../components/TestForm/TestFormContent'
 import Button from '../components/UI/Button'
 import classes from '../assets/styles/TestForm.module.css'
 import { ReactComponent as Plus } from '../assets/icons/plusIcon.svg'
+import Input from '../components/UI/Input'
 
 export default function TestForm() {
    const [testQuestions, setTestQuestions] = React.useState([
       {
          testName: '',
+         question: '',
          id: new Date().toISOString(),
          questionPLaceholder: 'Введите название теста',
          order: 1,
@@ -24,6 +26,7 @@ export default function TestForm() {
          ],
       },
    ])
+   console.log('component did update')
 
    const duplicateHandler = (question) => {
       const foundQuestion = {
@@ -69,7 +72,7 @@ export default function TestForm() {
          testName: '',
          id: new Date().toISOString(),
          questionPLaceholder: 'Введите название теста',
-         order: 1,
+         order: testQuestions.length,
          type: 'SINGLE',
          variants: [
             {
@@ -83,9 +86,21 @@ export default function TestForm() {
       }
       setTestQuestions((prev) => [...prev, newForm])
    }
+
+   const handleChangeTestname = (e) => {
+      setTestQuestions((prev) => [{ ...prev[0], testName: e.target.value }])
+   }
    return (
       <>
          <form className={classes['form-container']} onSubmit={handleSubmit}>
+            <div className={classes['form-title-container']}>
+               <h3 className={classes['form-title']}>Название теста</h3>
+               <Input
+                  placeholder="Введите название теста"
+                  onChange={handleChangeTestname}
+                  value={testQuestions[0].testName}
+               />
+            </div>
             <div>{testBlank}</div>
             <DialogActions>
                <Button variant="outlined">Отмена</Button>
