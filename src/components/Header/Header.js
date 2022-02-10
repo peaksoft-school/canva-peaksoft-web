@@ -1,51 +1,21 @@
-import * as React from 'react'
-import Paper from '@mui/material/Paper'
+import React from 'react'
 import ListItemText from '@mui/material/ListItemText'
-import { MenuItem, Menu } from '@mui/material'
-import { Logout } from '@mui/icons-material'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import styled from 'styled-components'
+import { MenuItem, Menu, Divider, styled } from '@mui/material'
 import { ReactComponent as UserLogo } from '../../assets/icons/userLogo.svg'
 import HeaderTabs from './HeaderTabs'
+import Wrapper from '../UI/Wrapper'
+import { ReactComponent as ArrowDown } from '../../assets/icons/arrowDownIcon.svg'
+import { ReactComponent as Logout } from '../../assets/icons/logoutIcon.svg'
+import Flexer from '../UI/Flexer'
 
-const StyledPaper = styled(Paper)`
-   &.MuiPaper-root {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 100%;
-      height: 50px;
-      background: #eff0f4;
-   }
-`
-
-const StyledDiv = styled('div')`
-   display: flex;
-   align-items: center;
-   position: absolute;
-   width: 181px;
-   height: 46px;
-   left: 1219px;
-`
-
-const StyledText = styled(ListItemText)`
-   margin: 1rem;
-   font-family: Open Sans;
-   font-size: 16px;
-   line-height: 22px;
-`
-
-const StyledMenuItem = styled(MenuItem)`
-   width: 213px;
-`
-
-const StyledDivWrapper = styled('div')`
-   display: flex;
-   align-items: center;
-`
-
-export default function Header({ userRole, withTabs = false, tabs = [] }) {
+export default function Header({
+   userRole,
+   withTabs = false,
+   tabs = [
+      { title: 'Учителя', link: 'Teachers' },
+      { title: 'Студенты', link: 'students' },
+   ],
+}) {
    const [anchorEl, setAnchorEl] = React.useState(null)
    const open = Boolean(anchorEl)
    const handleClick = (event) => {
@@ -57,36 +27,59 @@ export default function Header({ userRole, withTabs = false, tabs = [] }) {
 
    return (
       <>
-         <Menu
-            id="basic-menu"
+         <StyledMenu
+            disableScrollLock
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
-            MenuListProps={{
-               'aria-labelledby': 'basic-button',
-            }}
          >
-            <StyledMenuItem onClick={handleClose}>
+            <MenuItem onClick={handleClose}>
                <Logout />
-               Выйти
-            </StyledMenuItem>
-         </Menu>
-         <StyledPaper>
-            {withTabs && <HeaderTabs role={userRole} tabs={tabs} />}
-            <StyledDiv
-               id="basic-button"
-               aria-controls={open ? 'basic-menu' : undefined}
-               aria-haspopup="true"
-               aria-expanded={open ? 'true' : undefined}
-               onClick={handleClick}
-            >
-               <StyledDivWrapper>
+               <span>Выйти</span>
+            </MenuItem>
+         </StyledMenu>
+         <Wrapper align="right" width="98%">
+            {!withTabs && <HeaderTabs role={userRole} tabs={tabs} />}
+            <StyledDiv onClick={handleClick}>
+               <Flexer>
                   <UserLogo />
-                  <StyledText>{userRole}</StyledText>
-                  <KeyboardArrowDownIcon />
-               </StyledDivWrapper>
+                  <StyledText>{userRole || 'Администратор'}</StyledText>
+                  <StyledArrowDown open={open} />
+               </Flexer>
             </StyledDiv>
-         </StyledPaper>
+            <Divider />
+         </Wrapper>
       </>
    )
 }
+
+const StyledArrowDown = styled(ArrowDown)(({ open }) => ({
+   transition: '0.2s',
+   transform: `rotate(${open ? '180deg' : '360deg'})`,
+}))
+
+const StyledDiv = styled('div')`
+   display: inline-block;
+`
+
+const StyledText = styled(ListItemText)`
+   margin: 8px 1rem 14px;
+`
+
+const StyledMenu = styled(Menu)(() => ({
+   '& .MuiMenu-list': {
+      padding: 0,
+      width: '200px',
+   },
+   '& li': {
+      padding: '0.7rem',
+      backgroundColor: 'transparent !important',
+   },
+   '& li:hover': {
+      textDecoration: 'none',
+      backgroundColor: 'rgba(0, 0, 0, 0.04) !important',
+   },
+   '& span': {
+      padding: '0 8px 0',
+   },
+}))

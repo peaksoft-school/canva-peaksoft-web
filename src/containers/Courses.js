@@ -10,13 +10,12 @@ import Input from '../components/UI/Input'
 import Button from '../components/UI/Button'
 import DropZone from '../components/UI/DropZone'
 import Skeleton from '../components/UI/Skeleton'
-import IF from '../components/UI/IF'
 
 const initState = {
    avatar: '',
-   cardName: '',
-   cardDate: '',
-   cardTitle: '',
+   courseName: '',
+   courseDate: '',
+   courseTitle: '',
 }
 
 const CourseRoute = ({ data }) => {
@@ -26,25 +25,23 @@ const CourseRoute = ({ data }) => {
 
    const [addCourseModalData, setCourseModalData] = React.useState(initState)
 
-   const setCourseName = (e) =>
-      setCourseModalData((prev) => ({ ...prev, cardName: e.target.value }))
-   const setCourseDate = (e) =>
-      setCourseModalData((prev) => ({ ...prev, cardDate: e.target.value }))
-   const setCourseTitle = (e) =>
-      setCourseModalData((prev) => ({ ...prev, cardTitle: e.target.value }))
+   const handleChangeData = (e) =>
+      setCourseModalData((prev) => ({
+         ...prev,
+         [e.target.name]: e.target.value,
+      }))
+
    const setAvatar = (value) =>
       setCourseModalData((prev) => ({ ...prev, avatar: value }))
 
-   // чтобы не мапался каждый раз когда печатаешь
    const courses = React.useCallback(
-      data.map((item) => (
-         <IF
-            key={item.id}
-            condition={isLoading}
-            ins={<Skeleton />}
-            ins2={<Card {...item} />}
-         />
-      )),
+      data.map((item) =>
+         isLoading ? (
+            <Skeleton key={item.id} />
+         ) : (
+            <Card {...item} key={item.id} />
+         )
+      ),
       [addCourseModal, data]
    )
 
@@ -73,23 +70,26 @@ const CourseRoute = ({ data }) => {
                <Flexer justify="space-between">
                   <Input
                      width="65%"
+                     name="courseName"
                      placeholder="Название курса"
                      value={addCourseModalData.courseName}
-                     onChange={setCourseName}
+                     onChange={handleChangeData}
                   />
                   <Input
                      width="30%"
                      type="date"
+                     name="courseDate"
                      value={addCourseModalData.courseDate}
-                     onChange={setCourseDate}
+                     onChange={handleChangeData}
                   />
                </Flexer>
                <Input
                   multiline
                   rows={4}
                   placeholder="Описание курса"
+                  name="courseTitle"
                   value={addCourseModalData.courseTitle}
-                  onChange={setCourseTitle}
+                  onChange={handleChangeData}
                />
             </Modal.Body>
             <Modal.Footer>

@@ -65,12 +65,12 @@ export default function Card({ title, date, description, image, id, remove }) {
 
    const [editModalData, setEditModalData] = React.useState(initModalState)
 
-   const editCardName = (e) =>
-      setEditModalData((prev) => ({ ...prev, cardName: e.target.value }))
-   const editCardDate = (e) =>
-      setEditModalData((prev) => ({ ...prev, cardDate: e.target.value }))
-   const editCardTitle = (e) =>
-      setEditModalData((prev) => ({ ...prev, cardTitle: e.target.value }))
+   const handleChangeData = (e) => {
+      setEditModalData((prev) => ({
+         ...prev,
+         [e.target.name]: e.target.value,
+      }))
+   }
    const setAvatar = (value) =>
       setEditModalData((prev) => ({ ...prev, avatar: value }))
 
@@ -131,22 +131,25 @@ export default function Card({ title, date, description, image, id, remove }) {
                   <Input
                      width="65%"
                      placeholder="Название курса"
+                     name="cardName"
                      value={editModalData.cardName}
-                     onChange={editCardName}
+                     onChange={handleChangeData}
                   />
                   <Input
                      width="30%"
                      type="date"
+                     name="cardDate"
                      value={editModalData.cardDate}
-                     onChange={editCardDate}
+                     onChange={handleChangeData}
                   />
                </Flexer>
                <Input
                   multiline
                   rows={4}
                   placeholder="Описание курса"
+                  name="cardTitle"
                   value={editModalData.cardTitle}
-                  onChange={editCardTitle}
+                  onChange={handleChangeData}
                />
             </Modal.Body>
             <Modal.Footer>

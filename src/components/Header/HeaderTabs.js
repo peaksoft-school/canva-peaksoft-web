@@ -3,22 +3,19 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
+import { styled } from '@mui/material'
 
 const style = {
    textTransform: 'none',
-   fontFamily: 'Open Sans',
-   fontStyle: 'normal',
    fontWeight: '600',
-   fontSize: '16px',
    lineHeight: '22px',
    color: '#000000',
 }
 
-const StyledBox = styled(Box)`
-   width: 100%;
-   margin-left: 580px;
-`
+const StyledBox = styled(Box)(() => ({
+   position: 'absolute',
+   left: '50%',
+}))
 
 export default function HeaderTabs({ tabs = [] }) {
    const [value, setValue] = React.useState(0)
@@ -37,9 +34,9 @@ export default function HeaderTabs({ tabs = [] }) {
             {tabs.map((tabItem) => {
                return (
                   <Tab
+                     key={tabItem.title}
                      sx={style}
                      label={tabItem.title}
-                     key={tabItem.title}
                      component={NavLink}
                      to={tabItem.link}
                   />

@@ -12,9 +12,9 @@ import DropZone from '../components/UI/DropZone'
 
 const initState = {
    avatar: '',
-   cardName: '',
-   cardDate: '',
-   cardTitle: '',
+   groupName: '',
+   groupDate: '',
+   groupTitle: '',
 }
 
 const DefaultRoute = ({ data }) => {
@@ -27,20 +27,19 @@ const DefaultRoute = ({ data }) => {
 
    const [addGroupModalData, setGroupModalData] = React.useState(initState)
 
-   const setGroupName = (e) =>
-      setGroupModalData((prev) => ({ ...prev, cardName: e.target.value }))
-   const setGroupDate = (e) =>
-      setGroupModalData((prev) => ({ ...prev, cardDate: e.target.value }))
-   const setGroupTitle = (e) =>
-      setGroupModalData((prev) => ({ ...prev, cardTitle: e.target.value }))
-   const setAvatar = (value) =>
-      setGroupModalData((prev) => ({ ...prev, avatar: value }))
+   const handleChangeData = (e) =>
+      setGroupModalData((prev) => ({
+         ...prev,
+         [e.target.name]: e.target.value,
+      }))
+
+   const handleChangeAvatar = (file) =>
+      setGroupModalData((prev) => ({ ...prev, avatar: file }))
 
    const onConfirm = () => {
       setGroupModalData(initState)
       setAddGroupModal(false)
    }
-
    const onClose = () => {
       setGroupModalData(initState)
       setAddGroupModal(false)
@@ -52,7 +51,7 @@ const DefaultRoute = ({ data }) => {
             <Modal.Body>
                <DropZone
                   avatar={addGroupModalData.avatar}
-                  setAvatar={setAvatar}
+                  setAvatar={handleChangeAvatar}
                />
 
                <Typography width="45%" mx="auto" mb={2} color="gray">
@@ -61,23 +60,26 @@ const DefaultRoute = ({ data }) => {
                <Flexer justify="space-between">
                   <Input
                      width="65%"
+                     name="groupName"
                      placeholder="Название курса"
                      value={addGroupModalData.groupName}
-                     onChange={setGroupName}
+                     onChange={handleChangeData}
                   />
                   <Input
                      width="30%"
                      type="date"
+                     name="groupDate"
                      value={addGroupModalData.groupDate}
-                     onChange={setGroupDate}
+                     onChange={handleChangeData}
                   />
                </Flexer>
                <Input
                   multiline
                   rows={4}
                   placeholder="Описание курса"
+                  name="groupTitle"
                   value={addGroupModalData.groupTitle}
-                  onChange={setGroupTitle}
+                  onChange={handleChangeData}
                />
             </Modal.Body>
             <Modal.Footer>
