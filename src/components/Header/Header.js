@@ -11,7 +11,10 @@ import Flexer from '../UI/Flexer'
 export default function Header({
    userRole,
    withTabs = false,
-   tabs = ['Учителя', 'Студенты'],
+   tabs = [
+      { title: 'Учителя', link: 'Teachers' },
+      { title: 'Студенты', link: 'students' },
+   ],
 }) {
    const [anchorEl, setAnchorEl] = React.useState(null)
    const open = Boolean(anchorEl)
@@ -36,7 +39,7 @@ export default function Header({
             </MenuItem>
          </StyledMenu>
          <Wrapper align="right" width="98%">
-            {withTabs && <HeaderTabs role={userRole} tabs={tabs} />}
+            {!withTabs && <HeaderTabs role={userRole} tabs={tabs} />}
             <StyledDiv onClick={handleClick}>
                <Flexer>
                   <UserLogo />

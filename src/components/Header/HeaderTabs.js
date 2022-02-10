@@ -7,9 +7,7 @@ import { styled } from '@mui/material'
 
 const style = {
    textTransform: 'none',
-   // fontFamily: 'Open Sans',
    fontWeight: '600',
-   // fontSize: '16px',
    lineHeight: '22px',
    color: '#000000',
 }
@@ -38,7 +36,7 @@ export default function HeaderTabs({ tabs = [] }) {
                   <Tab
                      key={tabItem}
                      sx={style}
-                     label={tabItem}
+                     label={tabItem.title}
                      component={NavLink}
                      to={tabItem.link}
                   />
