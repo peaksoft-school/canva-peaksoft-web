@@ -10,13 +10,26 @@ import Input from '../components/UI/Input'
 import Button from '../components/UI/Button'
 import DropZone from '../components/UI/DropZone'
 
+const initState = {
+   avatar: '',
+   cardName: '',
+   cardDate: '',
+   cardTitle: '',
+}
+
 const DefaultRoute = ({ data }) => {
    const [addCourseModal, setAddCourseModal] = React.useState(false)
 
-   const [avatar, setAvatar] = React.useState(false)
-   const [courseName, setCourseName] = React.useState('')
-   const [courseDate, setCourseDate] = React.useState('')
-   const [courseTitle, setCourseTitle] = React.useState('')
+   const [addCourseModalData, setCourseModalData] = React.useState(initState)
+
+   const setCourseName = (e) =>
+      setCourseModalData((prev) => ({ ...prev, cardName: e.target.value }))
+   const setCourseDate = (e) =>
+      setCourseModalData((prev) => ({ ...prev, cardDate: e.target.value }))
+   const setCourseTitle = (e) =>
+      setCourseModalData((prev) => ({ ...prev, cardTitle: e.target.value }))
+   const setAvatar = (value) =>
+      setCourseModalData((prev) => ({ ...prev, avatar: value }))
 
    // чтобы не мапался каждый раз когда печатаешь
    const courses = React.useCallback(
@@ -25,18 +38,12 @@ const DefaultRoute = ({ data }) => {
    )
 
    const onConfirm = () => {
+      setCourseModalData(initState)
       setAddCourseModal(false)
-      setCourseDate('')
-      setCourseName('')
-      setCourseTitle('')
-      setAvatar(false)
    }
 
    const onClose = () => {
-      setCourseDate('')
-      setCourseName('')
-      setCourseTitle('')
-      setAvatar(false)
+      setCourseModalData(initState)
       setAddCourseModal(false)
    }
    return (
@@ -44,7 +51,10 @@ const DefaultRoute = ({ data }) => {
          <Modal open={addCourseModal} onClose={onClose}>
             <Modal.Title>Создать курс</Modal.Title>
             <Modal.Body>
-               <DropZone avatar={avatar} setAvatar={setAvatar} />
+               <DropZone
+                  avatar={addCourseModalData.avatar}
+                  setAvatar={setAvatar}
+               />
 
                <Typography width="45%" mx="auto" mb={2} color="gray">
                   Нажмите на иконку чтобы загрузить или перетащите фото
@@ -53,22 +63,22 @@ const DefaultRoute = ({ data }) => {
                   <Input
                      width="65%"
                      placeholder="Название курса"
-                     value={courseName}
-                     onChange={(e) => setCourseName(e.target.value)}
+                     value={addCourseModalData.courseName}
+                     onChange={setCourseName}
                   />
                   <Input
                      width="30%"
                      type="date"
-                     value={courseDate}
-                     onChange={(e) => setCourseDate(e.target.value)}
+                     value={addCourseModalData.courseDate}
+                     onChange={setCourseDate}
                   />
                </Flexer>
                <Input
                   multiline
                   rows={4}
                   placeholder="Описание курса"
-                  value={courseTitle}
-                  onChange={(e) => setCourseTitle(e.target.value)}
+                  value={addCourseModalData.courseTitle}
+                  onChange={setCourseTitle}
                />
             </Modal.Body>
             <Modal.Footer>

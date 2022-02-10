@@ -18,6 +18,13 @@ import Input from '../Input'
 import Button from '../Button'
 import DropZone from '../DropZone'
 
+const initModalState = {
+   avatar: '',
+   cardName: '',
+   cardDate: '',
+   cardTitle: '',
+}
+
 export default function Card({ title, date, description, image, id, remove }) {
    const dispatch = useDispatch()
 
@@ -56,16 +63,24 @@ export default function Card({ title, date, description, image, id, remove }) {
 
    const [editModal, setEditModal] = React.useState(false)
 
-   const [avatar, setAvatar] = React.useState(false)
-   const [cardName, editCardName] = React.useState('')
-   const [cardDate, editCardDate] = React.useState('')
-   const [cardTitle, editCardTitle] = React.useState('')
+   const [editModalData, setEditModalData] = React.useState(initModalState)
+
+   const editCardName = (e) =>
+      setEditModalData((prev) => ({ ...prev, cardName: e.target.value }))
+   const editCardDate = (e) =>
+      setEditModalData((prev) => ({ ...prev, cardDate: e.target.value }))
+   const editCardTitle = (e) =>
+      setEditModalData((prev) => ({ ...prev, cardTitle: e.target.value }))
+   const setAvatar = (value) =>
+      setEditModalData((prev) => ({ ...prev, avatar: value }))
 
    const submitEdit = () => {
-      setEditModal('')
+      setEditModalData(initModalState)
+      setEditModal(false)
    }
 
    const onCloseEditModal = () => {
+      setEditModalData(initModalState)
       setEditModal(false)
    }
 
@@ -107,7 +122,7 @@ export default function Card({ title, date, description, image, id, remove }) {
          <Modal open={editModal} onClose={onCloseEditModal}>
             <Modal.Title>Редактировать курс</Modal.Title>
             <Modal.Body>
-               <DropZone avatar={avatar} setAvatar={setAvatar} />
+               <DropZone avatar={editModalData.avatar} setAvatar={setAvatar} />
 
                <Typography width="45%" mx="auto" mb={2} color="gray">
                   Нажмите на иконку чтобы загрузить или перетащите фото
@@ -116,22 +131,22 @@ export default function Card({ title, date, description, image, id, remove }) {
                   <Input
                      width="65%"
                      placeholder="Название курса"
-                     value={cardName}
-                     onChange={(e) => editCardName(e.target.value)}
+                     value={editModalData.cardName}
+                     onChange={editCardName}
                   />
                   <Input
                      width="30%"
                      type="date"
-                     value={cardDate}
-                     onChange={(e) => editCardDate(e.target.value)}
+                     value={editModalData.cardDate}
+                     onChange={editCardDate}
                   />
                </Flexer>
                <Input
                   multiline
                   rows={4}
                   placeholder="Описание курса"
-                  value={cardTitle}
-                  onChange={(e) => editCardTitle(e.target.value)}
+                  value={editModalData.cardTitle}
+                  onChange={editCardTitle}
                />
             </Modal.Body>
             <Modal.Footer>

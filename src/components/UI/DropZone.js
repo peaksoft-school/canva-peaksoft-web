@@ -18,14 +18,14 @@ export default function DropZone({ avatar, setAvatar }) {
       },
    })
    return (
-      <div {...getRootProps()}>
+      <StyledDiv {...getRootProps()}>
          <input {...getInputProps()} />
          <IF
             condition={!avatar}
             ins={<DropImg />}
             ins2={<StyledImg src={avatar[0]?.preview} alt="hhe" />}
          />
-      </div>
+      </StyledDiv>
    )
 }
 
@@ -33,4 +33,8 @@ const StyledImg = styled('img')(() => ({
    maxWidth: '143px',
    maxHeight: '145',
    borderRadius: '10px',
+}))
+
+const StyledDiv = styled('div')(() => ({
+   display: 'inline-block',
 }))

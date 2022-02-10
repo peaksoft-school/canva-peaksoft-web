@@ -10,33 +10,39 @@ import Input from '../components/UI/Input'
 import Button from '../components/UI/Button'
 import DropZone from '../components/UI/DropZone'
 
+const initState = {
+   avatar: '',
+   cardName: '',
+   cardDate: '',
+   cardTitle: '',
+}
+
 const DefaultRoute = ({ data }) => {
    const [addGroupModal, setAddGroupModal] = React.useState(false)
-
-   const [avatar, setAvatar] = React.useState(false)
 
    const groups = React.useCallback(
       data.map((item) => <Card {...item} key={item.id} />),
       [addGroupModal]
    )
 
-   const [groupName, setGroupName] = React.useState('')
-   const [groupDate, setGroupDate] = React.useState('')
-   const [groupTitle, setGroupTitle] = React.useState('')
+   const [addGroupModalData, setGroupModalData] = React.useState(initState)
+
+   const setGroupName = (e) =>
+      setGroupModalData((prev) => ({ ...prev, cardName: e.target.value }))
+   const setGroupDate = (e) =>
+      setGroupModalData((prev) => ({ ...prev, cardDate: e.target.value }))
+   const setGroupTitle = (e) =>
+      setGroupModalData((prev) => ({ ...prev, cardTitle: e.target.value }))
+   const setAvatar = (value) =>
+      setGroupModalData((prev) => ({ ...prev, avatar: value }))
 
    const onConfirm = () => {
-      setGroupDate('')
-      setGroupName('')
-      setGroupTitle('')
-      setAvatar(false)
+      setGroupModalData(initState)
       setAddGroupModal(false)
    }
 
    const onClose = () => {
-      setGroupDate('')
-      setGroupName('')
-      setGroupTitle('')
-      setAvatar(false)
+      setGroupModalData(initState)
       setAddGroupModal(false)
    }
    return (
@@ -44,7 +50,10 @@ const DefaultRoute = ({ data }) => {
          <Modal open={addGroupModal} onClose={onClose}>
             <Modal.Title>Создать группу</Modal.Title>
             <Modal.Body>
-               <DropZone avatar={avatar} setAvatar={setAvatar} />
+               <DropZone
+                  avatar={addGroupModalData.avatar}
+                  setAvatar={setAvatar}
+               />
 
                <Typography width="45%" mx="auto" mb={2} color="gray">
                   Нажмите на иконку чтобы загрузить или перетащите фото
@@ -53,22 +62,22 @@ const DefaultRoute = ({ data }) => {
                   <Input
                      width="65%"
                      placeholder="Название курса"
-                     value={groupName}
-                     onChange={(e) => setGroupName(e.target.value)}
+                     value={addGroupModalData.groupName}
+                     onChange={setGroupName}
                   />
                   <Input
                      width="30%"
                      type="date"
-                     value={groupDate}
-                     onChange={(e) => setGroupDate(e.target.value)}
+                     value={addGroupModalData.groupDate}
+                     onChange={setGroupDate}
                   />
                </Flexer>
                <Input
                   multiline
                   rows={4}
                   placeholder="Описание курса"
-                  value={groupTitle}
-                  onChange={(e) => setGroupTitle(e.target.value)}
+                  value={addGroupModalData.groupTitle}
+                  onChange={setGroupTitle}
                />
             </Modal.Body>
             <Modal.Footer>
