@@ -16,8 +16,8 @@ export default function CardMenu({
    open,
    anchorEl,
    setAdd,
-   setOnChange,
    setRemove,
+   setEdit,
 }) {
    const onDelete = () => {
       handleClose()
@@ -27,6 +27,11 @@ export default function CardMenu({
    const onAdd = () => {
       handleClose()
       setAdd()
+   }
+
+   const onEdit = () => {
+      handleClose()
+      setEdit()
    }
    return (
       <Backdrop
@@ -48,7 +53,7 @@ export default function CardMenu({
                Назначить учителя
             </StyledMenuItem>
             <StyledDivider />
-            <StyledMenuItem onClick={setOnChange}>
+            <StyledMenuItem onClick={onEdit}>
                <ListItemIcon>
                   <ChangeIcon />
                </ListItemIcon>

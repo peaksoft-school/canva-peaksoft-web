@@ -11,6 +11,7 @@ export default function Flexer({
    mt,
    mb,
    my,
+   mx,
    p,
    pl,
    py,
@@ -19,7 +20,7 @@ export default function Flexer({
       <Box
          sx={{
             width,
-            mx: 'auto',
+            mx: mx || 'auto',
             display: display || 'flex',
             flexWrap: 'wrap',
             justifyContent: justify,

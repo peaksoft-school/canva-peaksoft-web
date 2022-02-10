@@ -19,10 +19,11 @@ export default function Input({
    className,
    onChange,
    width,
+   height,
    inputProps,
    hidden,
    id,
-   multiple,
+   multiline,
    sx,
    ...otherProps
 }) {
@@ -30,8 +31,8 @@ export default function Input({
       <StyledTextField
          className={className}
          id={id}
-         multiple={multiple}
          hidden={hidden}
+         multiline={multiline}
          sx={{ width: width || 1, m: 0.5, ...sx }}
          placeholder={placeholder}
          onChange={onChange}

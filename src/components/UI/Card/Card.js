@@ -16,6 +16,7 @@ import DeleteModal from '../DeleteModal/DeleteModal'
 import Modal from '../Modal'
 import Input from '../Input'
 import Button from '../Button'
+import DropZone from '../DropZone'
 
 export default function Card({ title, date, description, image, id, remove }) {
    const dispatch = useDispatch()
@@ -43,6 +44,7 @@ export default function Card({ title, date, description, image, id, remove }) {
    const onChangeGroup = () => {
       handleClose()
    }
+   console.log('mapped')
 
    // delete modal
    const [deleteModal, setDeleteModal] = React.useState(false)
@@ -50,6 +52,21 @@ export default function Card({ title, date, description, image, id, remove }) {
    const removeGroup = () => {
       setDeleteModal(false)
       dispatch(remove(id))
+   }
+
+   const [editModal, setEditModal] = React.useState(false)
+
+   const [avatar, setAvatar] = React.useState(false)
+   const [cardName, editCardName] = React.useState('')
+   const [cardDate, editCardDate] = React.useState('')
+   const [cardTitle, editCardTitle] = React.useState('')
+
+   const submitEdit = () => {
+      setEditModal('')
+   }
+
+   const onCloseEditModal = () => {
+      setEditModal(false)
    }
 
    return (
@@ -87,6 +104,46 @@ export default function Card({ title, date, description, image, id, remove }) {
             </Modal.Footer>
          </Modal>
 
+         <Modal open={editModal} onClose={onCloseEditModal}>
+            <Modal.Title>Редактировать курс</Modal.Title>
+            <Modal.Body>
+               <DropZone avatar={avatar} setAvatar={setAvatar} />
+
+               <Typography width="45%" mx="auto" mb={2} color="gray">
+                  Нажмите на иконку чтобы загрузить или перетащите фото
+               </Typography>
+               <Flexer justify="space-between">
+                  <Input
+                     width="65%"
+                     placeholder="Название курса"
+                     value={cardName}
+                     onChange={(e) => editCardName(e.target.value)}
+                  />
+                  <Input
+                     width="30%"
+                     type="date"
+                     value={cardDate}
+                     onChange={(e) => editCardDate(e.target.value)}
+                  />
+               </Flexer>
+               <Input
+                  multiline
+                  rows={4}
+                  placeholder="Описание курса"
+                  value={cardTitle}
+                  onChange={(e) => editCardTitle(e.target.value)}
+               />
+            </Modal.Body>
+            <Modal.Footer>
+               <Button variant="outlined" onClick={onCloseEditModal}>
+                  Отмена
+               </Button>
+               <Button variant="contained" onClick={submitEdit}>
+                  Добавить
+               </Button>
+            </Modal.Footer>
+         </Modal>
+
          {/* dropdown */}
          <CardMenu
             anchorEl={anchorEl}
@@ -94,6 +151,7 @@ export default function Card({ title, date, description, image, id, remove }) {
             open={isOpen}
             setRemove={() => setDeleteModal(true)}
             setAdd={() => setAddModal(true)}
+            setEdit={() => setEditModal(true)}
             setOnChange={onChangeGroup}
          />
 
@@ -123,8 +181,10 @@ const StyledCard = styled(MUICard)(() => ({
    '&.MuiCard-root': {
       maxWidth: 250,
       maxHeight: 311,
-      margin: '10px',
+      flexBasis: '23%',
+      margin: '1%',
       textAlign: 'left',
+      marginBottom: '15px',
       '*': {
          fontFamily: 'Open Sans',
       },
