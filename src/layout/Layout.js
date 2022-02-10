@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import React from 'react'
+import Header from '../components/Header/Header'
 // import { useSelector } from 'react-redux'
 // import { Navigate } from 'react-router-dom'
 import Sidebar from '../components/UI/Sidebar'
@@ -21,6 +22,7 @@ export default function Layout() {
                height: '100%',
             }}
          >
+            <Header />
             <PanelRoute />
          </Box>
       </Box>
