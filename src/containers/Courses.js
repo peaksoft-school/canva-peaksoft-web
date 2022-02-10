@@ -1,7 +1,7 @@
+import { Typography } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
-import { Typography } from '@mui/material'
 import Card from '../components/UI/Card/Card'
 import Flexer from '../components/UI/Flexer'
 import Modal from '../components/UI/Modal'
@@ -9,6 +9,8 @@ import Table from '../components/UI/Table'
 import Input from '../components/UI/Input'
 import Button from '../components/UI/Button'
 import DropZone from '../components/UI/DropZone'
+import Skeleton from '../components/UI/Skeleton'
+import IF from '../components/UI/IF'
 
 const initState = {
    avatar: '',
@@ -17,7 +19,9 @@ const initState = {
    cardTitle: '',
 }
 
-const DefaultRoute = ({ data }) => {
+const CourseRoute = ({ data }) => {
+   const isLoading = useSelector((state) => state.data.loading)
+
    const [addCourseModal, setAddCourseModal] = React.useState(false)
 
    const [addCourseModalData, setCourseModalData] = React.useState(initState)
@@ -33,8 +37,15 @@ const DefaultRoute = ({ data }) => {
 
    // чтобы не мапался каждый раз когда печатаешь
    const courses = React.useCallback(
-      data.map((item) => <Card {...item} key={item.id} />),
-      [addCourseModal]
+      data.map((item) => (
+         <IF
+            key={item.id}
+            condition={isLoading}
+            ins={<Skeleton />}
+            ins2={<Card {...item} />}
+         />
+      )),
+      [addCourseModal, data]
    )
 
    const onConfirm = () => {
@@ -101,11 +112,12 @@ const DefaultRoute = ({ data }) => {
    )
 }
 
-export default function Groups() {
+export default function Courses() {
    const data = useSelector((state) => state.data.data)
+
    return (
       <Routes>
-         <Route path="/" element={<DefaultRoute data={data} />} />
+         <Route path="/" element={<CourseRoute data={data} />} />
          <Route path="/:courseId" element={<Table />} />
       </Routes>
    )
