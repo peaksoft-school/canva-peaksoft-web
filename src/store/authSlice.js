@@ -20,6 +20,7 @@ const authSlice = createSlice({
          state.token = token
          state.user = user
          state.isLoading = false
+         state.isAuthorized = true
       },
       [login.rejected]: (state) => {
          state.isLoading = false
