@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { login } from './action-creators/auth-action'
+import { login, logout } from './action-creators/auth-action'
 
 const initialState = {
    token: '',
    isLoading: false,
-   isAuth: false,
+   isAuthorized: false,
    user: {},
 }
 
@@ -23,6 +23,10 @@ const authSlice = createSlice({
       },
       [login.rejected]: (state) => {
          state.isLoading = false
+      },
+      [logout.fulfilled]: (state) => {
+         state.userData = {}
+         state.token = null
       },
    },
 })
