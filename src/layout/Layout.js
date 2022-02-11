@@ -1,13 +1,15 @@
 import { Box } from '@mui/material'
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import Header from '../components/Header/Header'
 import Sidebar from '../components/UI/Sidebar'
-import PanelRoute from '../routes/PanelRoute'
 
-export default function Layout() {
+export default function Layout({ sidebarData, children }) {
+   const { pathname } = useLocation()
+   console.log(pathname)
    return (
       <Box display="flex">
-         <Sidebar />
+         <Sidebar items={sidebarData} />
          <Box
             sx={{
                backgroundColor: 'rgb(239,240,244)',
@@ -18,7 +20,7 @@ export default function Layout() {
             }}
          >
             <Header />
-            <PanelRoute />
+            {children}
          </Box>
       </Box>
    )

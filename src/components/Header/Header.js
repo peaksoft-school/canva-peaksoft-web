@@ -63,7 +63,7 @@ const StyledDiv = styled('div')`
 `
 
 const StyledText = styled(ListItemText)`
-   margin: 8px 1rem 14px;
+   padding: 8px 1rem 8px;
 `
 
 const StyledMenu = styled(Menu)(() => ({

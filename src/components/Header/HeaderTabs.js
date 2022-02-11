@@ -34,7 +34,7 @@ export default function HeaderTabs({ tabs = [] }) {
             {tabs.map((tabItem) => {
                return (
                   <Tab
-                     key={tabItem}
+                     key={tabItem.title}
                      sx={style}
                      label={tabItem.title}
                      component={NavLink}
