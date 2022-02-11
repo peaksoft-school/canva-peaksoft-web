@@ -1,14 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Box, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
-import sidebarIcons from '../../assets/icons/sidebarIcons'
 import classes from '../../assets/styles/AdminPage.module.css'
 import Logo from '../../assets/images/PeaksoftLogo.png'
 
-export default function Sidebar() {
-   const translate = ['groups', 'courses', 'teachers', 'students']
-
-   const listItems = ['Группы', 'Курсы', 'Учителя', 'Студенты']
+export default function Sidebar({ items }) {
    return (
       <Box display="flex">
          <Box
@@ -18,13 +14,13 @@ export default function Sidebar() {
          >
             <List>
                <img className={classes.logo} src={Logo} alt="peaksoft" />
-               {listItems.map((text, index) => (
-                  <NavLink to={translate[index]} key={text}>
-                     <ListItem button key={text} sx={{ p: 1.5 }}>
+               {items.map((item) => (
+                  <NavLink to={item.route} key={item.title}>
+                     <ListItem button key={item} sx={{ p: 1.5 }}>
                         <ListItemIcon>
-                           <img src={sidebarIcons[index]} alt="hello" />
+                           <img src={item.icon} alt="hello" />
                         </ListItemIcon>
-                        <ListItemText primary={text} />
+                        <ListItemText primary={item.title} />
                      </ListItem>
                   </NavLink>
                ))}
