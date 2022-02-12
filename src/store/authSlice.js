@@ -16,11 +16,12 @@ const authSlice = createSlice({
          state.isLoading = true
       },
       [login.fulfilled]: (state, action) => {
-         const { token, user } = action.payload
+         const { token, user, roles } = action.payload
+         const [role] = roles
          state.token = token
-         state.user = user
-         state.isLoading = false
+         state.user = { ...user, role }
          state.isAuthorized = true
+         state.isLoading = false
       },
       [login.rejected]: (state) => {
          state.isLoading = false
