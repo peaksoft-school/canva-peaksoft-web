@@ -4,8 +4,8 @@ import { login, logout } from './action-creators/auth-action'
 const initialState = {
    token: '',
    isLoading: false,
-   isAuthorized: false,
-   user: {},
+   isAuthorized: true,
+   user: { role: 'ROLE_ADMIN' },
 }
 
 const authSlice = createSlice({
