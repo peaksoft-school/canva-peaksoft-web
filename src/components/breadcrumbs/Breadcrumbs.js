@@ -21,29 +21,37 @@ export default function Breadcrumbs() {
       name: pathTranslate[path] || path, // path - route/:id
    }))
 
+   const renderLinkItem = (i) => `/${role}/${paths.slice(0, i + 1).join('/')}`
+
    return (
-      <MuiBreadcrumbs sx={{ mx: '1%', p: 2, pb: 1 }}>
+      <StyledBreadCrumbs>
          {pathnames.map(({ path, name }, index) => {
-            const routeTo = `/${role}/${paths.slice(0, index + 1).join('/')}`
+            const routeTo = renderLinkItem(index)
             const isLast = index === pathnames.length - 1
 
             return (
-               <StyledMuiLink
+               <MuiLink
                   color={isLast ? '#000000' : '#747D74'}
                   component={Link}
                   to={routeTo}
                   key={path}
                >
                   {name}
-               </StyledMuiLink>
+               </MuiLink>
             )
          })}
-      </MuiBreadcrumbs>
+      </StyledBreadCrumbs>
    )
 }
 
-const StyledMuiLink = styled(MuiLink)(() => ({
+const StyledBreadCrumbs = styled(MuiBreadcrumbs)(() => ({
    '&': {
+      margin: '0 1%',
+      padding: '1rem',
+      paddingBottom: '8px',
+   },
+
+   '& a': {
       textDecoration: 'none',
       fontSize: '14px',
    },

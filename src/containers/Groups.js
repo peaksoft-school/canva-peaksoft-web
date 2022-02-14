@@ -21,13 +21,12 @@ export default function Groups() {
    return (
       <Routes>
          <Route path="/" element={<DefaultRoute data={data} />} />
-         <Route path="/:groupId" element={<TableWrapper />} />
+         <Route path="/:groupId" element={<GroupsTable />} />
       </Routes>
    )
 }
 
-// у некоторых роутов нет breadcrumbs
-const TableWrapper = () => (
+const GroupsTable = () => (
    <>
       <Breadcrumbs />
       <Table />
