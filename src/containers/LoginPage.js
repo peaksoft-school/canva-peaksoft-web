@@ -29,17 +29,15 @@ export default function LoginPage() {
          if (res.roles[0] === ROLES.admin) navigate('/admin')
          if (res.roles[0] === ROLES.instructor) navigate('/instructor')
       } catch (e) {
-         setErrors({ password: 'Wrong password' })
+         setErrors({ password: 'Неверный пароль' })
       }
    }
 
    const validationSchema = Yup.object({
-      email: Yup.string('Enter your email')
-         .required('Email is required!')
-         .email('enter a valid email'),
-      password: Yup.string('Enter your password')
-         .min(4, 'Password should be of minimum 8 characters length')
-         .required('Password is required'),
+      email: Yup.string('Введите email')
+         .required('Email не указан!')
+         .email('Введите корректный email!'),
+      password: Yup.string('Введите пароль').required('Пароль не указан!'),
    })
 
    const formik = useFormik({
