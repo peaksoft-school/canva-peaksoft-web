@@ -13,9 +13,9 @@ import Skeleton from '../components/UI/Skeleton'
 
 const initState = {
    avatar: '',
-   courseName: '',
-   courseDate: '',
-   courseTitle: '',
+   name: '',
+   date: '',
+   title: '',
 }
 
 const CourseRoute = ({ data }) => {
@@ -23,16 +23,16 @@ const CourseRoute = ({ data }) => {
 
    const [addCourseModal, setAddCourseModal] = React.useState(false)
 
-   const [addCourseModalData, setCourseModalData] = React.useState(initState)
+   const [course, setCourse] = React.useState(initState)
 
    const handleChangeData = (e) =>
-      setCourseModalData((prev) => ({
+      setCourse((prev) => ({
          ...prev,
          [e.target.name]: e.target.value,
       }))
 
    const setAvatar = (value) =>
-      setCourseModalData((prev) => ({ ...prev, avatar: value }))
+      setCourse((prev) => ({ ...prev, avatar: value }))
 
    const courses = React.useCallback(
       data.map((item) =>
@@ -46,12 +46,12 @@ const CourseRoute = ({ data }) => {
    )
 
    const onConfirm = () => {
-      setCourseModalData(initState)
+      setCourse(initState)
       setAddCourseModal(false)
    }
 
    const onClose = () => {
-      setCourseModalData(initState)
+      setCourse(initState)
       setAddCourseModal(false)
    }
    return (
@@ -59,10 +59,7 @@ const CourseRoute = ({ data }) => {
          <Modal open={addCourseModal} onClose={onClose}>
             <Modal.Title>Создать курс</Modal.Title>
             <Modal.Body>
-               <DropZone
-                  avatar={addCourseModalData.avatar}
-                  setAvatar={setAvatar}
-               />
+               <DropZone avatar={course.avatar} setAvatar={setAvatar} />
 
                <Typography width="45%" mx="auto" mb={2} color="gray">
                   Нажмите на иконку чтобы загрузить или перетащите фото
@@ -70,16 +67,16 @@ const CourseRoute = ({ data }) => {
                <Flexer justify="space-between">
                   <Input
                      width="65%"
-                     name="courseName"
+                     name="name"
                      placeholder="Название курса"
-                     value={addCourseModalData.courseName}
+                     value={course.name}
                      onChange={handleChangeData}
                   />
                   <Input
                      width="30%"
                      type="date"
-                     name="courseDate"
-                     value={addCourseModalData.courseDate}
+                     name="date"
+                     value={course.date}
                      onChange={handleChangeData}
                   />
                </Flexer>
@@ -87,8 +84,8 @@ const CourseRoute = ({ data }) => {
                   multiline
                   rows={4}
                   placeholder="Описание курса"
-                  name="courseTitle"
-                  value={addCourseModalData.courseTitle}
+                  name="title"
+                  value={course.title}
                   onChange={handleChangeData}
                />
             </Modal.Body>

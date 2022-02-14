@@ -7,24 +7,21 @@ export default function DropZone({ avatar, setAvatar }) {
    const { getRootProps, getInputProps } = useDropzone({
       accept: 'image/*',
       onDrop: (files) => {
-         setAvatar(
-            files.map((file) =>
-               Object.assign(file, {
-                  preview: URL.createObjectURL(file),
-               })
-            )
-         )
+         setAvatar({
+            avatar: files[0],
+            preview: URL.createObjectURL(files[0]),
+         })
       },
    })
    return (
-      <StyledDiv {...getRootProps()}>
+      <span {...getRootProps()}>
          <input {...getInputProps()} />
          {!avatar ? (
             <DropImg />
          ) : (
-            <StyledImg src={avatar[0]?.preview} alt="hhe" />
+            <StyledImg src={avatar?.preview} alt="avatar-preview" />
          )}
-      </StyledDiv>
+      </span>
    )
 }
 
@@ -32,8 +29,4 @@ const StyledImg = styled('img')(() => ({
    maxWidth: '143px',
    maxHeight: '145',
    borderRadius: '10px',
-}))
-
-const StyledDiv = styled('div')(() => ({
-   display: 'inline-block',
 }))

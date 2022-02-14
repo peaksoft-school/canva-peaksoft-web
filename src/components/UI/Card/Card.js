@@ -20,9 +20,9 @@ import DropZone from '../DropZone'
 
 const initModalState = {
    avatar: '',
-   cardName: '',
-   cardDate: '',
-   cardTitle: '',
+   name: '',
+   date: '',
+   title: '',
 }
 
 export default function Card({ title, date, description, image, id, remove }) {
@@ -131,15 +131,15 @@ export default function Card({ title, date, description, image, id, remove }) {
                   <Input
                      width="65%"
                      placeholder="Название курса"
-                     name="cardName"
-                     value={editModalData.cardName}
+                     name="name"
+                     value={editModalData.name}
                      onChange={handleChangeData}
                   />
                   <Input
                      width="30%"
                      type="date"
-                     name="cardDate"
-                     value={editModalData.cardDate}
+                     name="date"
+                     value={editModalData.date}
                      onChange={handleChangeData}
                   />
                </Flexer>
@@ -147,8 +147,8 @@ export default function Card({ title, date, description, image, id, remove }) {
                   multiline
                   rows={4}
                   placeholder="Описание курса"
-                  name="cardTitle"
-                  value={editModalData.cardTitle}
+                  name="title"
+                  value={editModalData.title}
                   onChange={handleChangeData}
                />
             </Modal.Body>
