@@ -4,7 +4,7 @@ import List from '@mui/material/List'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { Box, styled } from '@mui/material'
+import { DialogActions as Actions, styled } from '@mui/material'
 
 const Title = ({ children }) => (
    <AppBar sx={{ position: 'relative', mb: '1rem' }}>
@@ -21,15 +21,21 @@ const Title = ({ children }) => (
    </AppBar>
 )
 
-const Body = ({ children }) => <List>{children}</List>
+const Body = ({ children, ...props }) => (
+   <List sx={{ mx: 'auto', width: '90%' }} {...props}>
+      {children}
+   </List>
+)
 
-const Footer = ({ children }) => <Box p="20px">{children}</Box>
+const Footer = ({ children }) => (
+   <Actions sx={{ mx: 'auto', width: '90%', p: '20px' }}>{children}</Actions>
+)
 
 Modal.Title = Title
 Modal.Body = Body
 Modal.Footer = Footer
 
-export default function Modal({ open, onClose, children, sx }) {
+export default function Modal({ open, onClose, children, sx, ...props }) {
    return (
       <StyledDialog
          fullWidth
@@ -37,6 +43,7 @@ export default function Modal({ open, onClose, children, sx }) {
          open={open}
          onClose={onClose}
          sx={{ textAlign: 'center', ...sx }}
+         {...props}
       >
          {children}
       </StyledDialog>
