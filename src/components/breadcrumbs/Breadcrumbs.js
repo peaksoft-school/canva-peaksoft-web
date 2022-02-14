@@ -8,14 +8,23 @@ import { Link, useLocation } from 'react-router-dom'
 
 export default function Breadcrumbs() {
    const { pathname } = useLocation()
-   const pathnames = pathname.split('/').filter((x) => x)
 
-   pathnames.shift() // remove it and you will see user role
-   console.log(pathnames)
+   const pathTranslate = {
+      groups: 'Группы',
+      courses: 'Курсы',
+      'my-courses': 'Мои курсы',
+   }
+
+   const [role, ...paths] = pathname.split('/').filter((x) => x)
+   const pathnames = paths.map((path) => ({
+      path,
+      name: pathTranslate[path] || path, // path - route/:id
+   }))
+
    return (
       <MuiBreadcrumbs sx={{ mx: '1%', p: 2, pb: 1 }}>
-         {pathnames.map((name, index) => {
-            const routeTo = `/admin/${pathnames.slice(0, index + 1).join('/')}`
+         {pathnames.map(({ path, name }, index) => {
+            const routeTo = `/${role}/${paths.slice(0, index + 1).join('/')}`
             const isLast = index === pathnames.length - 1
 
             return (
@@ -23,7 +32,7 @@ export default function Breadcrumbs() {
                   color={isLast ? '#000000' : '#747D74'}
                   component={Link}
                   to={routeTo}
-                  key={name}
+                  key={path}
                >
                   {name}
                </StyledMuiLink>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
+import Breadcrumbs from '../components/breadcrumbs/Breadcrumbs'
 
 import CustomizedCard from '../components/UI/Card/CustomizedCard'
 import Flexer from '../components/UI/Flexer'
@@ -20,7 +21,15 @@ export default function Groups() {
    return (
       <Routes>
          <Route path="/" element={<DefaultRoute data={data} />} />
-         <Route path="/:groupId" element={<Table />} />
+         <Route path="/:groupId" element={<TableWrapper />} />
       </Routes>
    )
 }
+
+// у некоторых роутов нет breadcrumbs
+const TableWrapper = () => (
+   <>
+      <Breadcrumbs />
+      <Table />
+   </>
+)
