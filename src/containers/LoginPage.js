@@ -2,6 +2,7 @@ import React from 'react'
 import * as Yup from 'yup'
 import { Box, InputAdornment } from '@mui/material'
 import { useFormik } from 'formik'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import loginImg from '../assets/images/loginImage.png'
 import classes from '../assets/styles/LoginPage.module.css'
@@ -10,31 +11,33 @@ import Loading from '../components/UI/Loading'
 import Button from '../components/UI/Button'
 import { ReactComponent as Visibility } from '../assets/icons/showPassword.svg'
 import { ReactComponent as VisibilityOff } from '../assets/icons/hidePassword.svg'
+import { login } from '../store/action-creators/auth-action'
+import { ROLES } from '../utils/constants/roles'
 
 export default function LoginPage() {
+   const dispatch = useDispatch()
    const navigate = useNavigate()
 
-   // const isLoggedIn = false
-   const [isLoading, setIsloading] = React.useState(false)
+   const { isLoading } = useSelector((state) => state.auth)
+
    const [showPassword, setShowPassword] = React.useState(false)
    const handleClickShowPassword = () => setShowPassword(!showPassword)
 
-   const handleLogin = (formValue) => {
-      console.log(formValue)
-      // const { email, password } = formValue
-      // dispatch(login({ email, password }))
-      setIsloading(true)
-      return navigate('/admin')
+   const handleLogin = async ({ email, password }, { setErrors }) => {
+      try {
+         const res = await dispatch(login({ email, password })).unwrap()
+         if (res.roles[0] === ROLES.admin) navigate('/admin')
+         if (res.roles[0] === ROLES.instructor) navigate('/instructor')
+      } catch (e) {
+         setErrors({ password: 'Неверный пароль' })
+      }
    }
 
-   //* validation
    const validationSchema = Yup.object({
-      email: Yup.string('Enter your email')
-         .required('Email is required!')
-         .email('enter a valid email'),
-      password: Yup.string('Enter your password')
-         .min(8, 'Password should be of minimum 8 characters length')
-         .required('Password is required'),
+      email: Yup.string('Введите email')
+         .required('Email не указан!')
+         .email('Введите корректный email!'),
+      password: Yup.string('Введите пароль').required('Пароль не указан!'),
    })
 
    const formik = useFormik({
@@ -45,10 +48,9 @@ export default function LoginPage() {
       validationSchema,
       onSubmit: handleLogin,
    })
-   // if (isLoggedIn) return navigate('/admin')
 
    return (
-      <Box className={classes.container} sx={{ opacity: isLoading ? 0.7 : '' }}>
+      <Box className={classes.container} sx={{ opacity: isLoading ? 0.8 : '' }}>
          <Loading className={classes.loading} display={isLoading} />
          <div className={classes.leftSide}>
             <img className={classes.loginImg} src={loginImg} alt="loginImage" />
@@ -99,7 +101,6 @@ export default function LoginPage() {
                   }}
                />
                <Button
-                  align="center"
                   sx={{ fontSize: 18 }}
                   variant="contained"
                   type="submit"
