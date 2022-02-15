@@ -1,17 +1,15 @@
 import { Box } from '@mui/material'
 import React from 'react'
-// import { useSelector } from 'react-redux'
-// import { Navigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import Header from '../components/Header/Header'
 import Sidebar from '../components/UI/Sidebar'
-import PanelRoute from '../routes/PanelRoute'
 
-export default function Layout() {
-   // const { user } = useSelector((state) => state.auth)
-   // if (!user) return <Navigate to="/login" />
-
+export default function Layout({ sidebarData, children }) {
+   const { pathname } = useLocation()
+   console.log(pathname)
    return (
       <Box display="flex">
-         <Sidebar />
+         <Sidebar items={sidebarData} />
          <Box
             sx={{
                backgroundColor: 'rgb(239,240,244)',
@@ -21,7 +19,8 @@ export default function Layout() {
                height: '100%',
             }}
          >
-            <PanelRoute />
+            <Header />
+            {children}
          </Box>
       </Box>
    )

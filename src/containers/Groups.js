@@ -7,7 +7,7 @@ import Flexer from '../components/UI/Flexer'
 import Table from '../components/UI/Table'
 
 const DefaultRoute = ({ data }) => (
-   <Flexer>
+   <Flexer justify="start">
       {data.map((item) => (
          <CustomizedCard {...item} key={item.id} />
       ))}
