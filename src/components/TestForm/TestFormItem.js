@@ -7,6 +7,7 @@ import Container from '../UI/Container'
 import Flexer from '../UI/Flexer'
 import Variants from './Variants'
 import classes from '../../assets/styles/TestFormContent.module.css'
+import useDebounce from '../hooks/use-debounce'
 
 export default function TestFormContent({
    data,
@@ -15,9 +16,7 @@ export default function TestFormContent({
    onDuplicate,
    onDelete,
 }) {
-   // radio-button
    const [selectedValue, setSelectedValue] = React.useState('')
-   // checkbox-buttonS
    const [checkboxes, setCheckBoxes] = React.useState([])
 
    const [inputForm, setInputForm] = React.useState({
@@ -25,18 +24,14 @@ export default function TestFormContent({
       variants: [...data.variants],
    })
 
+   const debouncedForm = useDebounce(inputForm, 1000)
    React.useEffect(() => {
-      const debounce = setTimeout(() => {
-         onChangeState((prev) => {
-            const newForms = [...prev]
-            newForms[id] = inputForm
-            return newForms
-         })
-      }, 1000)
-      return () => clearTimeout(debounce)
-   }, [inputForm])
-
-   React.useEffect(() => setInputForm({ ...data }), [data.testName])
+      onChangeState((prev) => {
+         const newForms = [...prev.forms]
+         newForms[id] = debouncedForm
+         return { ...prev, forms: newForms }
+      })
+   }, [debouncedForm])
 
    React.useEffect(() => {
       const updatedVariants = inputForm.variants.map((variant) => ({

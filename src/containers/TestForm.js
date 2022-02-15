@@ -1,55 +1,61 @@
 import React from 'react'
-import { DialogActions, SpeedDial } from '@mui/material'
-import TestFormContent from '../components/TestForm/TestFormContent'
+import { DialogActions, SpeedDial as Duplicate, styled } from '@mui/material'
+import TestFormContent from '../components/TestForm/TestFormItem'
 import Button from '../components/UI/Button'
 import classes from '../assets/styles/TestForm.module.css'
 import { ReactComponent as Plus } from '../assets/icons/plusIcon.svg'
 import Input from '../components/UI/Input'
 
 export default function TestForm() {
-   const [testQuestions, setTestQuestions] = React.useState([
-      {
-         testName: '',
-         question: '',
-         id: new Date().toISOString(),
-         questionPLaceholder: 'Введите название теста',
-         order: 1,
-         type: 'SINGLE',
-         variants: [
-            {
-               id: new Date().toISOString(),
-               isCorrect: false,
-               title: `Вариант 1`,
-               value: '',
-               checked: '0',
-            },
-         ],
-      },
-   ])
-   console.log('component did update')
+   const [testQuestions, setTestQuestions] = React.useState({
+      testName: '',
+      forms: [
+         {
+            question: '',
+            id: new Date().toISOString(),
+            questionPLaceholder: 'Введите название теста',
+            order: 0,
+            type: 'SINGLE',
+            variants: [
+               {
+                  id: new Date().toISOString(),
+                  isCorrect: false,
+                  title: `Вариант 1`,
+                  value: '',
+                  checked: '0',
+               },
+            ],
+         },
+      ],
+   })
+   console.log(testQuestions)
 
    const duplicateHandler = (question) => {
-      const foundQuestion = {
+      const variants = question.variants.map((variant, index) => ({
+         ...variant,
+         id: Math.random().toString(),
+         order: index,
+      }))
+      const duplicate = {
          ...question,
          order: question.order + 1,
          id: new Date().toISOString(),
-         variants: question.variants.map((variant, index) => ({
-            ...variant,
-            id: Math.random().toString(),
-            order: index,
-         })),
+         variants,
       }
-      setTestQuestions((prevState) => [...prevState, foundQuestion])
+      setTestQuestions((prev) => ({
+         ...prev,
+         forms: [...prev.forms, duplicate],
+      }))
    }
 
    const deleteHandler = (questionId) => {
-      setTestQuestions((prev) =>
-         prev.filter((question) => question.id !== questionId)
+      const filteredForms = testQuestions.forms.filter(
+         (question) => question.id !== questionId
       )
+      setTestQuestions((prev) => ({ ...prev, forms: filteredForms }))
    }
-
-   const testBlank = React.useCallback(
-      testQuestions.map((question, index) => (
+   const blankTestItem = React.useCallback(
+      testQuestions.forms.map((question, index) => (
          <TestFormContent
             data={question}
             id={index}
@@ -59,20 +65,19 @@ export default function TestForm() {
             onChangeState={setTestQuestions}
          />
       )),
-      [testQuestions]
+      [testQuestions.forms]
    )
 
    const handleSubmit = (e) => {
       e.preventDefault()
-      console.log(testQuestions)
    }
 
    const duplicateForm = () => {
       const newForm = {
-         testName: '',
+         question: '',
          id: new Date().toISOString(),
          questionPLaceholder: 'Введите название теста',
-         order: testQuestions.length,
+         order: testQuestions.forms.length,
          type: 'SINGLE',
          variants: [
             {
@@ -84,11 +89,15 @@ export default function TestForm() {
             },
          ],
       }
-      setTestQuestions((prev) => [...prev, newForm])
+      setTestQuestions((prev) => ({ ...prev, forms: [...prev.forms, newForm] }))
    }
 
    const handleChangeTestname = (e) => {
-      setTestQuestions((prev) => [{ ...prev[0], testName: e.target.value }])
+      setTestQuestions((prev) => ({
+         ...prev,
+         testName: e.target.value,
+         forms: prev.forms,
+      }))
    }
    return (
       <>
@@ -98,10 +107,10 @@ export default function TestForm() {
                <Input
                   placeholder="Введите название теста"
                   onChange={handleChangeTestname}
-                  value={testQuestions[0].testName}
+                  value={testQuestions.testName}
                />
             </div>
-            <div>{testBlank}</div>
+            <div>{blankTestItem}</div>
             <DialogActions>
                <Button variant="outlined">Отмена</Button>
                <Button type="submit" variant="contained">
@@ -109,16 +118,19 @@ export default function TestForm() {
                </Button>
             </DialogActions>
          </form>
-         <SpeedDial
+         <StyledDuplicate
             onClick={duplicateForm}
-            ariaLabel="SpeedDial basic example"
-            sx={{
-               position: 'fixed',
-               bottom: 60,
-               right: 16,
-            }}
+            ariaLabel="duplicate-button"
             icon={<Plus />}
          />
       </>
    )
 }
+
+const StyledDuplicate = styled(Duplicate)(() => ({
+   '&': {
+      position: 'fixed',
+      bottom: 60,
+      right: 16,
+   },
+}))
