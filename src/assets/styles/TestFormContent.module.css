@@ -1,0 +1,46 @@
+
+.test-form-wrapper {
+    width: 100%;
+    margin-top: 35px;
+    background: #ffffff;
+    border: 1px solid #d4d4d4;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.form-title {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #1f6ed4;
+}
+
+.order {
+    padding: 15px;
+}
+
+.order span {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+    color: #1F6ED4;
+
+}
+
+.add-variant {
+    color: #7A7A7A; 
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    background: none;
+}
+
+.add-other-variant {
+    color: #1F6ED4;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    margin-left: 10px;
+    cursor: pointer;
+}

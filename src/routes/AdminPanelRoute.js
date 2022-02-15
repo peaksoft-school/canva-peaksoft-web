@@ -5,6 +5,7 @@ import Groups from '../containers/Groups'
 import LessonForm from '../containers/LessonForm'
 import Teachers from '../containers/Teachers'
 import Students from '../containers/Students'
+import TestForm from '../containers/TestForm'
 
 export default function PanelRoute() {
    return (
@@ -14,6 +15,7 @@ export default function PanelRoute() {
          <Route path="teachers" element={<Teachers />} />
          <Route path="students" element={<Students />} />
          <Route path="add-lesson" element={<LessonForm />} />
+         <Route path="test-form" element={<TestForm />} />
       </Routes>
    )
 }

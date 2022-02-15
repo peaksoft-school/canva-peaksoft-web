@@ -1,6 +1,5 @@
-import { TextField } from '@mui/material'
+import { styled, TextField } from '@mui/material'
 import React from 'react'
-import styled from 'styled-components'
 
 const StyledTextField = styled(TextField)(() => ({
    '&.MuiTextField-root': {
@@ -13,6 +12,7 @@ const StyledTextField = styled(TextField)(() => ({
       borderRadius: '10px',
    },
 }))
+
 export default function Input({
    children,
    placeholder,
@@ -24,15 +24,23 @@ export default function Input({
    id,
    multiple,
    sx,
+   m,
+   my,
+   mx,
+   p,
+   py,
+   px,
+   value,
    ...otherProps
 }) {
    return (
       <StyledTextField
+         value={value}
          className={className}
          id={id}
          multiple={multiple}
          hidden={hidden}
-         sx={{ width: width || 1, m: 0.5, ...sx }}
+         sx={{ width: width || 1, m: m || 0.5, p, py, px, my, mx, ...sx }}
          placeholder={placeholder}
          onChange={onChange}
          size="small"

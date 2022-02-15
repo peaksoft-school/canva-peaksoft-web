@@ -7,7 +7,9 @@ export default function Flexer({
    children,
    display,
    alignItems,
+   flexWrap,
    width,
+   m,
    mt,
    mb,
    my,
@@ -18,12 +20,13 @@ export default function Flexer({
    return (
       <Box
          sx={{
-            width,
+            width: width || 1,
             mx: 'auto',
+            flexWrap: flexWrap || 'wrap',
             display: display || 'flex',
-            flexWrap: 'wrap',
             justifyContent: justify,
             alignItems: alignItems || 'center',
+            m,
             mt,
             my,
             mb,
