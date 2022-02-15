@@ -7,7 +7,7 @@ import CustomizedCard from '../components/UI/Card/CustomizedCard'
 import Flexer from '../components/UI/Flexer'
 import Table from '../components/UI/Table'
 
-const DefaultRoute = ({ data }) => (
+const GroupsRoute = ({ data }) => (
    <Flexer justify="start">
       {data.map((item) => (
          <CustomizedCard {...item} key={item.id} />
@@ -20,7 +20,7 @@ export default function Groups() {
 
    return (
       <Routes>
-         <Route path="/" element={<DefaultRoute data={data} />} />
+         <Route path="/" element={<GroupsRoute data={data} />} />
          <Route path="/:groupId" element={<GroupsTable />} />
       </Routes>
    )

@@ -1,12 +1,9 @@
 import React from 'react'
-import {
-   Breadcrumbs as MuiBreadcrumbs,
-   Link as MuiLink,
-   styled,
-} from '@mui/material'
+import { Link as MuiLink, styled } from '@mui/material'
+import Breadcrumbs from '@mui/material/Breadcrumbs/Breadcrumbs'
 import { Link, useLocation } from 'react-router-dom'
 
-export default function Breadcrumbs() {
+export default function CustomBreadcrumbs() {
    const { pathname } = useLocation()
 
    const pathTranslate = {
@@ -21,30 +18,25 @@ export default function Breadcrumbs() {
       name: pathTranslate[path] || path, // path - route/:id
    }))
 
-   const renderLinkItem = (i) => `/${role}/${paths.slice(0, i + 1).join('/')}`
+   const renderLinkItem = (i) => {
+      return {
+         to: `/${role}/${paths.slice(0, i + 1).join('/')}`,
+         color: i === pathnames.length - 1 ? '#000000' : '#747D74',
+      }
+   }
 
    return (
       <StyledBreadCrumbs>
-         {pathnames.map(({ path, name }, index) => {
-            const routeTo = renderLinkItem(index)
-            const isLast = index === pathnames.length - 1
-
-            return (
-               <MuiLink
-                  color={isLast ? '#000000' : '#747D74'}
-                  component={Link}
-                  to={routeTo}
-                  key={path}
-               >
-                  {name}
-               </MuiLink>
-            )
-         })}
+         {pathnames.map(({ path, name }, i) => (
+            <MuiLink {...renderLinkItem(i)} component={Link} key={path}>
+               {name}
+            </MuiLink>
+         ))}
       </StyledBreadCrumbs>
    )
 }
 
-const StyledBreadCrumbs = styled(MuiBreadcrumbs)(() => ({
+const StyledBreadCrumbs = styled(Breadcrumbs)(() => ({
    '&': {
       margin: '0 1%',
       padding: '1rem',
