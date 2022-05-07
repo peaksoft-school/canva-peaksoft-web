@@ -2,7 +2,7 @@ import { Skeleton, Stack } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
-
+import Breadcrumbs from '../components/breadcrumbs/Breadcrumbs'
 import CustomizedCard from '../components/UI/Card/CustomizedCard'
 import Flexer from '../components/UI/Flexer'
 import Table from '../components/UI/Table'
@@ -35,7 +35,14 @@ export default function Courses() {
    return (
       <Routes>
          <Route path="/" element={<CourseRoute data={data} />} />
-         <Route path="/:courseId" element={<Table />} />
+         <Route path="/:courseId" element={<StudentTable />} />
       </Routes>
    )
 }
+
+const StudentTable = () => (
+   <>
+      <Breadcrumbs />
+      <Table />
+   </>
+)
